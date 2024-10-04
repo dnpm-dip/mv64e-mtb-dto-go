@@ -16,7 +16,6 @@ type Mtb struct {
 	CarePlans                  []MTBCarePlan                     `json:"carePlans,omitempty"`
 	ClaimResponses             []ClaimResponse                   `json:"claimResponses,omitempty"`
 	Claims                     []ClaimElement                    `json:"claims,omitempty"`
-	Consent                    Consent                           `json:"consent"`
 	Diagnoses                  []MTBDiagnosis                    `json:"diagnoses,omitempty"`
 	EcogStatus                 []PerformanceStatus               `json:"ecogStatus,omitempty"`
 	Episode                    *MTBEpisode                       `json:"episode,omitempty"`
@@ -83,18 +82,12 @@ type ClaimElement struct {
 	Therapy  *string                `json:"therapy,omitempty"`
 }
 
-type Consent struct {
-	ID      *string                 `json:"id,omitempty"`
-	Patient *NoTargetFindingPatient `json:"patient,omitempty"`
-	Status  *ConsentStatus          `json:"status,omitempty"`
-}
-
 type MTBDiagnosis struct {
 	Code                     Coding                 `json:"code"`
 	GuidelineTreatmentStatus *Coding                `json:"guidelineTreatmentStatus,omitempty"`
 	HistologyResults         []string               `json:"histologyResults,omitempty"`
-	IcdO3T                   *Coding                `json:"icdO3T,omitempty"`
 	ID                       string                 `json:"id"`
+	IcdO3T                   *Coding                `json:"icdO3T,omitempty"`
 	Patient                  NoTargetFindingPatient `json:"patient"`
 	RecordedOn               *string                `json:"recordedOn,omitempty"`
 	StatusHistory            []StatusHistory        `json:"statusHistory,omitempty"`
@@ -206,8 +199,8 @@ type SomaticNGSReport struct {
 	DnaFusions         []DNAFusion            `json:"dnaFusions,omitempty"`
 	ID                 string                 `json:"id"`
 	IssueDate          *string                `json:"issueDate,omitempty"`
-	Metadata           []Metadatum            `json:"metadata"`
 	MSI                *float64               `json:"msi,omitempty"`
+	Metadata           []Metadatum            `json:"metadata"`
 	Patient            NoTargetFindingPatient `json:"patient"`
 	RnaFusions         []RNAFusion            `json:"rnaFusions,omitempty"`
 	RnaSeqs            []RNASeq               `json:"rnaSeqs,omitempty"`
@@ -219,9 +212,9 @@ type SomaticNGSReport struct {
 }
 
 type Cnv struct {
-	Chromosome            Chromosome             `json:"chromosome"`
 	CNA                   *float64               `json:"cnA,omitempty"`
 	CNB                   *float64               `json:"cnB,omitempty"`
+	Chromosome            Chromosome             `json:"chromosome"`
 	CopyNumberNeutralLoH  []CopyNumberNeutralLoH `json:"copyNumberNeutralLoH,omitempty"`
 	EndRange              EndRange               `json:"endRange"`
 	ID                    string                 `json:"id"`
@@ -460,8 +453,8 @@ type CodingRECIST struct {
 
 type SpecimenElement struct {
 	Collection *Collection              `json:"collection,omitempty"`
-	Icd10      *Coding                  `json:"icd10,omitempty"`
 	ID         string                   `json:"id"`
+	Icd10      *Coding                  `json:"icd10,omitempty"`
 	Patient    NoTargetFindingPatient   `json:"patient"`
 	Type       *CodingTumorSpecimenType `json:"type,omitempty"`
 }
@@ -526,16 +519,9 @@ const (
 type ClaimResponseStatus string
 
 const (
-	Accepted                    ClaimResponseStatus = "accepted"
-	ClaimResponseStatusRejected ClaimResponseStatus = "rejected"
-	ClaimResponseStatusUnknown  ClaimResponseStatus = "unknown"
-)
-
-type ConsentStatus string
-
-const (
-	Active                ConsentStatus = "active"
-	ConsentStatusRejected ConsentStatus = "rejected"
+	Accepted                   ClaimResponseStatus = "accepted"
+	ClaimResponseStatusUnknown ClaimResponseStatus = "unknown"
+	Rejected                   ClaimResponseStatus = "rejected"
 )
 
 type MTBDiagnosisTumorSpread string
