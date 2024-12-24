@@ -23,6 +23,7 @@ type Mtb struct {
 	GuidelineProcedures        []OncoProdecure                   `json:"guidelineProcedures,omitempty"`
 	GuidelineTherapies         []GuidelineTherapyElement         `json:"guidelineTherapies,omitempty"`
 	HistologyReports           []HistologyReport                 `json:"histologyReports,omitempty"`
+	IhcReports                 []IHCReport                       `json:"ihcReports,omitempty"`
 	MolecularTherapies         []MolecularTherapy                `json:"molecularTherapies,omitempty"`
 	NgsReports                 []SomaticNGSReport                `json:"ngsReports,omitempty"`
 	Patient                    MtbPatient                        `json:"patient"`
@@ -31,6 +32,7 @@ type Mtb struct {
 	Responses                  []Response                        `json:"responses,omitempty"`
 	Specimens                  []SpecimenElement                 `json:"specimens,omitempty"`
 	StudyInclusionRequests     []StudyEnrollmentRecommendation   `json:"studyInclusionRequests,omitempty"`
+	Therapies                  []Therapy                         `json:"therapies,omitempty"`
 }
 
 type MTBCarePlan struct {
@@ -267,7 +269,7 @@ type CodingTherapyStatusReason struct {
 }
 
 type GuidelineTherapyElement struct {
-	BasedOn      *string                          `json:"basedOn,omitempty"`
+	BasedOn      *Reference                       `json:"basedOn,omitempty"`
 	Diagnosis    *string                          `json:"diagnosis,omitempty"`
 	ID           string                           `json:"id"`
 	Indication   *Reference                       `json:"indication,omitempty"`
@@ -329,6 +331,63 @@ type TumorMorphologySpecimen struct {
 type HistologyReportSpecimen struct {
 	ID   string       `json:"id"`
 	Type SpecimenType `json:"type"`
+}
+
+type IHCReport struct {
+	BlockID                  ExternalID                `json:"blockId"`
+	Date                     string                    `json:"date"`
+	ID                       string                    `json:"id"`
+	JournalID                ExternalID                `json:"journalId"`
+	MSIMmrResults            []MSIMmrResult            `json:"msiMmrResults"`
+	Patient                  Reference                 `json:"patient"`
+	ProteinExpressionResults []ProteinExpressionResult `json:"proteinExpressionResults"`
+	Specimen                 Reference                 `json:"specimen"`
+}
+
+type ExternalID struct {
+	System *string `json:"system,omitempty"`
+	Value  string  `json:"value"`
+}
+
+type MSIMmrResult struct {
+	ICScore  *CodingProteinExpressionICScore `json:"icScore,omitempty"`
+	ID       string                          `json:"id"`
+	Patient  Reference                       `json:"patient"`
+	Protein  Coding                          `json:"protein"`
+	TcScore  *CodingProteinExpressionTCScore `json:"tcScore,omitempty"`
+	TpsScore *int64                          `json:"tpsScore,omitempty"`
+	Value    CodingProteinExpressionResult   `json:"value"`
+}
+
+type CodingProteinExpressionICScore struct {
+	Code    ICScoreCode `json:"code"`
+	Display *string     `json:"display,omitempty"`
+	System  *string     `json:"system,omitempty"`
+	Version *string     `json:"version,omitempty"`
+}
+
+type CodingProteinExpressionTCScore struct {
+	Code    TcScoreCode `json:"code"`
+	Display *string     `json:"display,omitempty"`
+	System  *string     `json:"system,omitempty"`
+	Version *string     `json:"version,omitempty"`
+}
+
+type CodingProteinExpressionResult struct {
+	Code    ProteinExpressionResultCode `json:"code"`
+	Display *string                     `json:"display,omitempty"`
+	System  *string                     `json:"system,omitempty"`
+	Version *string                     `json:"version,omitempty"`
+}
+
+type ProteinExpressionResult struct {
+	ICScore  *CodingProteinExpressionICScore `json:"icScore,omitempty"`
+	ID       string                          `json:"id"`
+	Patient  Reference                       `json:"patient"`
+	Protein  Coding                          `json:"protein"`
+	TcScore  *CodingProteinExpressionTCScore `json:"tcScore,omitempty"`
+	TpsScore *int64                          `json:"tpsScore,omitempty"`
+	Value    CodingProteinExpressionResult   `json:"value"`
 }
 
 type MolecularTherapy struct {
@@ -522,11 +581,6 @@ type Snv struct {
 	TranscriptID     *ExternalID                      `json:"transcriptId,omitempty"`
 }
 
-type ExternalID struct {
-	System *string `json:"system,omitempty"`
-	Value  string  `json:"value"`
-}
-
 type Position struct {
 	End   *float64 `json:"end,omitempty"`
 	Start float64  `json:"start"`
@@ -597,10 +651,10 @@ type PerformanceStatus struct {
 }
 
 type CodingECOG struct {
-	Code    PurpleCode `json:"code"`
-	Display *string    `json:"display,omitempty"`
-	System  *string    `json:"system,omitempty"`
-	Version *string    `json:"version,omitempty"`
+	Code    EcogCode `json:"code"`
+	Display *string  `json:"display,omitempty"`
+	System  *string  `json:"system,omitempty"`
+	Version *string  `json:"version,omitempty"`
 }
 
 type Response struct {
@@ -617,7 +671,7 @@ type ResponseTherapy struct {
 }
 
 type CodingRECIST struct {
-	Code    FluffyCode `json:"code"`
+	Code    RecistCode `json:"code"`
 	Display *string    `json:"display,omitempty"`
 	System  *string    `json:"system,omitempty"`
 	Version *string    `json:"version,omitempty"`
@@ -658,6 +712,10 @@ type CodingTumorSpecimenType struct {
 	Code    TumorSpecimenType `json:"code"`
 	Display *string           `json:"display,omitempty"`
 	System  *string           `json:"system,omitempty"`
+}
+
+type Therapy struct {
+	History []GuidelineTherapyElement `json:"history"`
 }
 
 type PatientType string
@@ -795,6 +853,38 @@ const (
 	TumorSpecimen SpecimenType = "TumorSpecimen"
 )
 
+type ICScoreCode string
+
+const (
+	ICScoreCode0 ICScoreCode = "0"
+	ICScoreCode1 ICScoreCode = "1"
+	ICScoreCode2 ICScoreCode = "2"
+	ICScoreCode3 ICScoreCode = "3"
+)
+
+type TcScoreCode string
+
+const (
+	TcScoreCode0 TcScoreCode = "0"
+	TcScoreCode1 TcScoreCode = "1"
+	TcScoreCode2 TcScoreCode = "2"
+	TcScoreCode3 TcScoreCode = "3"
+	TcScoreCode4 TcScoreCode = "4"
+	TcScoreCode5 TcScoreCode = "5"
+	TcScoreCode6 TcScoreCode = "6"
+)
+
+type ProteinExpressionResultCode string
+
+const (
+	Exp                              ProteinExpressionResultCode = "exp"
+	NotExp                           ProteinExpressionResultCode = "not-exp"
+	TentacledUnknown                 ProteinExpressionResultCode = "unknown"
+	ProteinExpressionResultCode1Plus ProteinExpressionResultCode = "1+"
+	ProteinExpressionResultCode2Plus ProteinExpressionResultCode = "2+"
+	ProteinExpressionResultCode3Plus ProteinExpressionResultCode = "3+"
+)
+
 type ChromosomeCode string
 
 const (
@@ -879,14 +969,14 @@ const (
 	Deceased VitalStatusCode = "deceased"
 )
 
-type PurpleCode string
+type EcogCode string
 
 const (
-	Code1 PurpleCode = "1"
-	Code2 PurpleCode = "2"
-	Code3 PurpleCode = "3"
-	Code4 PurpleCode = "4"
-	Code0 PurpleCode = "0"
+	EcogCode0 EcogCode = "0"
+	EcogCode1 EcogCode = "1"
+	EcogCode2 EcogCode = "2"
+	EcogCode3 EcogCode = "3"
+	EcogCode4 EcogCode = "4"
 )
 
 type ResponseTherapyType string
@@ -895,16 +985,16 @@ const (
 	MTBMedicationTherapy ResponseTherapyType = "MTBMedicationTherapy"
 )
 
-type FluffyCode string
+type RecistCode string
 
 const (
-	CR  FluffyCode = "CR"
-	Mr  FluffyCode = "MR"
-	Na  FluffyCode = "NA"
-	Nya FluffyCode = "NYA"
-	PD  FluffyCode = "PD"
-	PR  FluffyCode = "PR"
-	SD  FluffyCode = "SD"
+	CR  RecistCode = "CR"
+	Mr  RecistCode = "MR"
+	Na  RecistCode = "NA"
+	Nya RecistCode = "NYA"
+	PD  RecistCode = "PD"
+	PR  RecistCode = "PR"
+	SD  RecistCode = "SD"
 )
 
 type TumorSpecimenCollectionLocalization string
