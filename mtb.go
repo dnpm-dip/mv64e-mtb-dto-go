@@ -1,10 +1,15 @@
 package mtb
 
-import "encoding/json"
+import (
+	"bytes"
+	"encoding/json"
+)
 
 func UnmarshalMtb(data []byte) (Mtb, error) {
 	var r Mtb
-	err := json.Unmarshal(data, &r)
+	dec := json.NewDecoder(bytes.NewReader(data))
+	dec.DisallowUnknownFields()
+	err := dec.Decode(&r)
 	return r, err
 }
 
