@@ -18,83 +18,92 @@ func (r *Mtb) Marshal() ([]byte, error) {
 }
 
 type Mtb struct {
-	CarePlans                  []MTBCarePlan                     `json:"carePlans,omitempty"`
-	ClaimResponses             []ClaimResponse                   `json:"claimResponses,omitempty"`
-	Claims                     []ClaimElement                    `json:"claims,omitempty"`
-	Diagnoses                  []MTBDiagnosis                    `json:"diagnoses,omitempty"`
-	Episode                    *MTBEpisode                       `json:"episode,omitempty"`
-	EpisodesOfCare             []EpisodeOfCare                   `json:"episodesOfCare,omitempty"`
-	GeneticCounsellingRequests []GeneticCounselingRecommendation `json:"geneticCounsellingRequests,omitempty"`
-	GuidelineProcedures        []OncoProdecure                   `json:"guidelineProcedures,omitempty"`
-	GuidelineTherapies         []GuidelineTherapyElement         `json:"guidelineTherapies,omitempty"`
-	HistologyReports           []HistologyReport                 `json:"histologyReports,omitempty"`
-	IhcReports                 []IHCReport                       `json:"ihcReports,omitempty"`
-	MolecularTherapies         []MolecularTherapy                `json:"molecularTherapies,omitempty"`
-	NgsReports                 []SomaticNGSReport                `json:"ngsReports,omitempty"`
-	Patient                    MtbPatient                        `json:"patient"`
-	PerformanceStatus          []PerformanceStatus               `json:"performanceStatus,omitempty"`
-	Recommendations            []MTBMedicationRecommendation     `json:"recommendations,omitempty"`
-	Responses                  []Response                        `json:"responses,omitempty"`
-	Specimens                  []SpecimenElement                 `json:"specimens,omitempty"`
-	StudyInclusionRequests     []StudyEnrollmentRecommendation   `json:"studyInclusionRequests,omitempty"`
-	Therapies                  []Therapy                         `json:"therapies,omitempty"`
+	CarePlans              []MTBCarePlan              `json:"carePlans,omitempty"`
+	ClaimResponses         []ClaimResponse            `json:"claimResponses,omitempty"`
+	Claims                 []Claim                    `json:"claims,omitempty"`
+	Diagnoses              []MTBDiagnosis             `json:"diagnoses"`
+	EpisodesOfCare         []MTBEpisodeOfCare         `json:"episodesOfCare"`
+	FollowUPS              []FollowUp                 `json:"followUps,omitempty"`
+	GuidelineProcedures    []OncoProcedure            `json:"guidelineProcedures,omitempty"`
+	GuidelineTherapies     []MTBSystemicTherapy       `json:"guidelineTherapies,omitempty"`
+	HistologyReports       []HistologyReport          `json:"histologyReports,omitempty"`
+	IhcReports             []IHCReport                `json:"ihcReports,omitempty"`
+	NgsReports             []SomaticNGSReportMetadata `json:"ngsReports,omitempty"`
+	Patient                Patient                    `json:"patient"`
+	PerformanceStatus      []PerformanceStatus        `json:"performanceStatus,omitempty"`
+	PriorDiagnosticReports []PriorDiagnosticReport    `json:"priorDiagnosticReports,omitempty"`
+	Responses              []Response                 `json:"responses,omitempty"`
+	Specimens              []TumorSpecimen            `json:"specimens,omitempty"`
+	SystemicTherapies      []SystemicTherapy          `json:"systemicTherapies,omitempty"`
 }
 
 type MTBCarePlan struct {
-	Diagnosis                       *string                          `json:"diagnosis,omitempty"`
-	GeneticCounselingRecommendation *GeneticCounselingRecommendation `json:"geneticCounselingRecommendation,omitempty"`
-	ID                              string                           `json:"id"`
-	Indication                      *Reference                       `json:"indication,omitempty"`
-	IssuedOn                        *string                          `json:"issuedOn,omitempty"`
-	MedicationRecommendations       []MTBMedicationRecommendation    `json:"medicationRecommendations,omitempty"`
-	NoTargetFinding                 *NoTargetFinding                 `json:"noTargetFinding,omitempty"`
-	Notes                           *string                          `json:"notes,omitempty"`
-	Patient                         GeneticCounsellingRequestPatient `json:"patient"`
-	StatusReason                    *CodingCarePlanStatusReason      `json:"statusReason,omitempty"`
-	StudyEnrollmentRecommendations  []StudyEnrollmentRecommendation  `json:"studyEnrollmentRecommendations,omitempty"`
+	GeneticCounselingRecommendation *GeneticCounselingRecommendation   `json:"geneticCounselingRecommendation,omitempty"`
+	HistologyReevaluationRequests   []HistologyReevaluationRequest     `json:"histologyReevaluationRequests,omitempty"`
+	ID                              string                             `json:"id"`
+	IssuedOn                        string                             `json:"issuedOn"`
+	MedicationRecommendations       []MTBMedicationRecommendation      `json:"medicationRecommendations,omitempty"`
+	Notes                           []string                           `json:"notes,omitempty"`
+	Patient                         Reference                          `json:"patient"`
+	ProcedureRecommendations        []ProcedureRecommendation          `json:"procedureRecommendations,omitempty"`
+	Reason                          *Reference                         `json:"reason,omitempty"`
+	RebiopsyRequests                []RebiopsyRequest                  `json:"rebiopsyRequests,omitempty"`
+	StatusReason                    *CodingMTBCarePlanStatusReason     `json:"statusReason,omitempty"`
+	StudyEnrollmentRecommendations  []MTBStudyEnrollmentRecommendation `json:"studyEnrollmentRecommendations,omitempty"`
 }
 
 type GeneticCounselingRecommendation struct {
-	ID       string                           `json:"id"`
-	IssuedOn *string                          `json:"issuedOn,omitempty"`
-	Patient  GeneticCounsellingRequestPatient `json:"patient"`
-	Reason   Coding                           `json:"reason"`
-}
-
-type GeneticCounsellingRequestPatient struct {
-	ID   string      `json:"id"`
-	Type PatientType `json:"type"`
-}
-
-type Coding struct {
-	Code    string  `json:"code"`
-	Display *string `json:"display,omitempty"`
-	System  *string `json:"system,omitempty"`
-	Version *string `json:"version,omitempty"`
+	ID       string                                      `json:"id"`
+	IssuedOn string                                      `json:"issuedOn"`
+	Patient  Reference                                   `json:"patient"`
+	Reason   CodingGeneticCounselingRecommendationReason `json:"reason"`
 }
 
 type Reference struct {
 	Display *string `json:"display,omitempty"`
 	ID      string  `json:"id"`
+	System  *string `json:"system,omitempty"`
 	Type    *string `json:"type,omitempty"`
 }
 
+type CodingGeneticCounselingRecommendationReason struct {
+	Code    ReasonCode `json:"code"`
+	Display *string    `json:"display,omitempty"`
+	System  *string    `json:"system,omitempty"`
+	Version *string    `json:"version,omitempty"`
+}
+
+type HistologyReevaluationRequest struct {
+	ID       string    `json:"id"`
+	IssuedOn string    `json:"issuedOn"`
+	Patient  Reference `json:"patient"`
+	Specimen Reference `json:"specimen"`
+}
+
 type MTBMedicationRecommendation struct {
-	ID                 string                               `json:"id"`
-	Indication         *Reference                           `json:"indication,omitempty"`
-	IssuedOn           *string                              `json:"issuedOn,omitempty"`
-	LevelOfEvidence    *LevelOfEvidence                     `json:"levelOfEvidence,omitempty"`
-	Medication         []Coding                             `json:"medication,omitempty"`
-	NgsReport          *string                              `json:"ngsReport,omitempty"`
-	Patient            GeneticCounsellingRequestPatient     `json:"patient"`
-	Priority           *CodingTherapyRecommendationPriority `json:"priority,omitempty"`
-	SupportingVariants []Reference                          `json:"supportingVariants,omitempty"`
+	Category           *CodingMTBMedicationRecommendationCategory `json:"category,omitempty"`
+	ID                 string                                     `json:"id"`
+	IssuedOn           string                                     `json:"issuedOn"`
+	LevelOfEvidence    *LevelOfEvidence                           `json:"levelOfEvidence,omitempty"`
+	Medication         []CodingATCUnregisteredMedication          `json:"medication"`
+	Patient            Reference                                  `json:"patient"`
+	Priority           CodingRecommendationPriority               `json:"priority"`
+	Reason             *Reference                                 `json:"reason,omitempty"`
+	SupportingVariants []GeneAlterationReference                  `json:"supportingVariants,omitempty"`
+	UseType            *CodingMTBMedicationRecommendationUseType  `json:"useType,omitempty"`
+}
+
+type CodingMTBMedicationRecommendationCategory struct {
+	Code    CodingMTBMedicationRecommendationCategoryCode `json:"code"`
+	Display *string                                       `json:"display,omitempty"`
+	System  *string                                       `json:"system,omitempty"`
+	Version *string                                       `json:"version,omitempty"`
 }
 
 type LevelOfEvidence struct {
 	Addendums    []CodingLevelOfEvidenceAddendum `json:"addendums,omitempty"`
 	Grading      CodingLevelOfEvidenceGrading    `json:"grading"`
-	Publications []ReferencePublication          `json:"publications,omitempty"`
+	Publications []PublicationReference          `json:"publications,omitempty"`
 }
 
 type CodingLevelOfEvidenceAddendum struct {
@@ -105,256 +114,364 @@ type CodingLevelOfEvidenceAddendum struct {
 }
 
 type CodingLevelOfEvidenceGrading struct {
-	Code    GradingCode `json:"code"`
+	Code    LevelOfEvidenceCode `json:"code"`
+	Display *string             `json:"display,omitempty"`
+	System  *string             `json:"system,omitempty"`
+	Version *string             `json:"version,omitempty"`
+}
+
+type PublicationReference struct {
+	Display *string           `json:"display,omitempty"`
+	ID      string            `json:"id"`
+	System  PublicationSystem `json:"system"`
+	Type    *string           `json:"type,omitempty"`
+}
+
+type CodingATCUnregisteredMedication struct {
+	Code    string                    `json:"code"`
+	Display *string                   `json:"display,omitempty"`
+	System  RequestedMedicationSystem `json:"system"`
+	Version *string                   `json:"version,omitempty"`
+}
+
+type CodingRecommendationPriority struct {
+	Code    PriorityCode `json:"code"`
+	Display *string      `json:"display,omitempty"`
+	System  *string      `json:"system,omitempty"`
+	Version *string      `json:"version,omitempty"`
+}
+
+type GeneAlterationReference struct {
+	Display *string   `json:"display,omitempty"`
+	Gene    *Coding   `json:"gene,omitempty"`
+	Variant Reference `json:"variant"`
+}
+
+type Coding struct {
+	Code    string  `json:"code"`
+	Display *string `json:"display,omitempty"`
+	System  *string `json:"system,omitempty"`
+	Version *string `json:"version,omitempty"`
+}
+
+type CodingMTBMedicationRecommendationUseType struct {
+	Code    UseTypeCode `json:"code"`
 	Display *string     `json:"display,omitempty"`
 	System  *string     `json:"system,omitempty"`
 	Version *string     `json:"version,omitempty"`
 }
 
-type ReferencePublication struct {
-	EXTID *EXTID  `json:"extId,omitempty"`
-	Type  *string `json:"type,omitempty"`
-	URI   *string `json:"uri,omitempty"`
+type ProcedureRecommendation struct {
+	Code               CodingMTBProcedureRecommendationCategory `json:"code"`
+	ID                 string                                   `json:"id"`
+	IssuedOn           string                                   `json:"issuedOn"`
+	LevelOfEvidence    *LevelOfEvidence                         `json:"levelOfEvidence,omitempty"`
+	Patient            Reference                                `json:"patient"`
+	Priority           CodingRecommendationPriority             `json:"priority"`
+	Reason             *Reference                               `json:"reason,omitempty"`
+	SupportingVariants []GeneAlterationReference                `json:"supportingVariants,omitempty"`
 }
 
-type EXTID struct {
-	System *EXTIDSystem `json:"system,omitempty"`
-	Value  string       `json:"value"`
+type CodingMTBProcedureRecommendationCategory struct {
+	Code    CodingMTBProcedureRecommendationCategoryCode `json:"code"`
+	Display *string                                      `json:"display,omitempty"`
+	System  *string                                      `json:"system,omitempty"`
+	Version *string                                      `json:"version,omitempty"`
 }
 
-type CodingTherapyRecommendationPriority struct {
-	Code    TherapyRecommendationPriority `json:"code"`
-	Display *string                       `json:"display,omitempty"`
-	System  *string                       `json:"system,omitempty"`
+type RebiopsyRequest struct {
+	ID          string    `json:"id"`
+	IssuedOn    string    `json:"issuedOn"`
+	Patient     Reference `json:"patient"`
+	TumorEntity Reference `json:"tumorEntity"`
 }
 
-type NoTargetFinding struct {
-	Diagnosis string                           `json:"diagnosis"`
-	IssuedOn  *string                          `json:"issuedOn,omitempty"`
-	Patient   GeneticCounsellingRequestPatient `json:"patient"`
+type CodingMTBCarePlanStatusReason struct {
+	Code    CodingMTBCarePlanStatusReasonCode `json:"code"`
+	Display *string                           `json:"display,omitempty"`
+	System  *string                           `json:"system,omitempty"`
+	Version *string                           `json:"version,omitempty"`
 }
 
-type CodingCarePlanStatusReason struct {
-	Code    string  `json:"code"`
-	Display *string `json:"display,omitempty"`
-	System  *string `json:"system,omitempty"`
+type MTBStudyEnrollmentRecommendation struct {
+	ID                 string                            `json:"id"`
+	IssuedOn           string                            `json:"issuedOn"`
+	LevelOfEvidence    *CodingLevelOfEvidenceGrading     `json:"levelOfEvidence,omitempty"`
+	Medication         []CodingATCUnregisteredMedication `json:"medication,omitempty"`
+	Patient            Reference                         `json:"patient"`
+	Priority           CodingRecommendationPriority      `json:"priority"`
+	Reason             Reference                         `json:"reason"`
+	Study              []StudyReference                  `json:"study"`
+	SupportingVariants []GeneAlterationReference         `json:"supportingVariants,omitempty"`
 }
 
-type StudyEnrollmentRecommendation struct {
-	ID                 string                           `json:"id"`
-	IssuedOn           *string                          `json:"issuedOn,omitempty"`
-	LevelOfEvidence    *Coding                          `json:"levelOfEvidence,omitempty"`
-	Patient            GeneticCounsellingRequestPatient `json:"patient"`
-	Reason             Reference                        `json:"reason"`
-	Studies            []Study                          `json:"studies"`
-	SupportingVariants []Reference                      `json:"supportingVariants,omitempty"`
-}
-
-type Study struct {
-	System string `json:"system"`
-	Value  string `json:"value"`
+type StudyReference struct {
+	Display *string     `json:"display,omitempty"`
+	ID      string      `json:"id"`
+	System  StudySystem `json:"system"`
+	Type    *string     `json:"type,omitempty"`
 }
 
 type ClaimResponse struct {
-	Claim        ClaimResponseClaim               `json:"claim"`
+	Claim        Reference                        `json:"claim"`
 	ID           string                           `json:"id"`
 	IssuedOn     string                           `json:"issuedOn"`
-	Patient      GeneticCounsellingRequestPatient `json:"patient"`
+	Patient      Reference                        `json:"patient"`
 	Status       CodingClaimResponseStatus        `json:"status"`
 	StatusReason *CodingClaimResponseStatusReason `json:"statusReason,omitempty"`
 }
 
-type ClaimResponseClaim struct {
-	ID   *string                 `json:"id,omitempty"`
-	Type *ClaimResponseClaimType `json:"type,omitempty"`
-}
-
 type CodingClaimResponseStatus struct {
-	Code    ClaimResponseStatus `json:"code"`
-	Display *string             `json:"display,omitempty"`
-	System  *string             `json:"system,omitempty"`
+	Code    CodingClaimResponseStatusCode `json:"code"`
+	Display *string                       `json:"display,omitempty"`
+	System  *string                       `json:"system,omitempty"`
+	Version *string                       `json:"version,omitempty"`
 }
 
 type CodingClaimResponseStatusReason struct {
-	Code    ClaimResponseStatusReason `json:"code"`
-	Display *string                   `json:"display,omitempty"`
-	System  *string                   `json:"system,omitempty"`
+	Code    CodingClaimResponseStatusReasonCode `json:"code"`
+	Display *string                             `json:"display,omitempty"`
+	System  *string                             `json:"system,omitempty"`
+	Version *string                             `json:"version,omitempty"`
 }
 
-type ClaimElement struct {
-	ID             string                           `json:"id"`
-	IssuedOn       string                           `json:"issuedOn"`
-	Patient        GeneticCounsellingRequestPatient `json:"patient"`
-	Recommendation *Recommendation                  `json:"recommendation,omitempty"`
-	Stage          *Coding                          `json:"stage,omitempty"`
+type Claim struct {
+	ID                  string                            `json:"id"`
+	IssuedOn            string                            `json:"issuedOn"`
+	Patient             Reference                         `json:"patient"`
+	Recommendation      Reference                         `json:"recommendation"`
+	RequestedMedication []CodingATCUnregisteredMedication `json:"requestedMedication,omitempty"`
+	Stage               *CodingClaimStage                 `json:"stage,omitempty"`
 }
 
-type Recommendation struct {
-	ID   string `json:"id"`
-	Type string `json:"type"`
-}
-
-type MTBDiagnosis struct {
-	Code                     Coding                           `json:"code"`
-	GuidelineTreatmentStatus *Coding                          `json:"guidelineTreatmentStatus,omitempty"`
-	HistologyResults         []string                         `json:"histologyResults,omitempty"`
-	ID                       string                           `json:"id"`
-	IcdO3T                   *Coding                          `json:"icdO3T,omitempty"`
-	Patient                  GeneticCounsellingRequestPatient `json:"patient"`
-	RecordedOn               *string                          `json:"recordedOn,omitempty"`
-	StageHistory             []StageHistory                   `json:"stageHistory,omitempty"`
-	Topography               *Coding                          `json:"topography,omitempty"`
-	TumorGrade               *CodingTumorGrade                `json:"tumorGrade,omitempty"`
-	WhoGrade                 *Coding                          `json:"whoGrade,omitempty"`
-	WhoGrading               *Coding                          `json:"whoGrading,omitempty"`
-}
-
-type StageHistory struct {
-	Date  string            `json:"date"`
-	Stage CodingTumorSpread `json:"stage"`
-}
-
-type CodingTumorSpread struct {
+type CodingClaimStage struct {
 	Code    StageCode `json:"code"`
 	Display *string   `json:"display,omitempty"`
 	System  *string   `json:"system,omitempty"`
+	Version *string   `json:"version,omitempty"`
 }
 
-type CodingTumorGrade struct {
-	Code    TumorGradeCode `json:"code"`
-	Display *string        `json:"display,omitempty"`
-	System  *string        `json:"system,omitempty"`
-	Version *string        `json:"version,omitempty"`
+type MTBDiagnosis struct {
+	Code                     Coding                                      `json:"code"`
+	GermlineCodes            []Coding                                    `json:"germlineCodes,omitempty"`
+	Grading                  *Grading                                    `json:"grading,omitempty"`
+	GuidelineTreatmentStatus *CodingMTBDiagnosisGuidelineTreatmentStatus `json:"guidelineTreatmentStatus,omitempty"`
+	Histology                []Reference                                 `json:"histology,omitempty"`
+	ID                       string                                      `json:"id"`
+	Notes                    []string                                    `json:"notes,omitempty"`
+	Patient                  Reference                                   `json:"patient"`
+	RecordedOn               *string                                     `json:"recordedOn,omitempty"`
+	Staging                  *Staging                                    `json:"staging,omitempty"`
+	Topography               *Coding                                     `json:"topography,omitempty"`
+	Type                     Type                                        `json:"type"`
 }
 
-type MTBEpisode struct {
-	ID      string                           `json:"id"`
-	Patient GeneticCounsellingRequestPatient `json:"patient"`
-	Period  PeriodLocalDate                  `json:"period"`
+type Grading struct {
+	History []TumorGrading `json:"history"`
 }
 
-type PeriodLocalDate struct {
+type TumorGrading struct {
+	Codes []Coding `json:"codes"`
+	Date  string   `json:"date"`
+}
+
+type CodingMTBDiagnosisGuidelineTreatmentStatus struct {
+	Code    GuidelineTreatmentStatusCode `json:"code"`
+	Display *string                      `json:"display,omitempty"`
+	System  *string                      `json:"system,omitempty"`
+	Version *string                      `json:"version,omitempty"`
+}
+
+type Staging struct {
+	History []TumorStaging `json:"history"`
+}
+
+type TumorStaging struct {
+	Date                 string                   `json:"date"`
+	Method               CodingTumorStagingMethod `json:"method"`
+	OtherClassifications []Coding                 `json:"otherClassifications,omitempty"`
+	TnmClassification    *TnmClassification       `json:"tnmClassification,omitempty"`
+}
+
+type CodingTumorStagingMethod struct {
+	Code    CodingTumorStagingMethodCode `json:"code"`
+	Display *string                      `json:"display,omitempty"`
+	System  *string                      `json:"system,omitempty"`
+	Version *string                      `json:"version,omitempty"`
+}
+
+type TnmClassification struct {
+	Metastasis Coding `json:"metastasis"`
+	Nodes      Coding `json:"nodes"`
+	Tumor      Coding `json:"tumor"`
+}
+
+type Type struct {
+	History []History `json:"history"`
+}
+
+type History struct {
+	Date  string             `json:"date"`
+	Value CodingMTBDiagnosis `json:"value"`
+}
+
+type CodingMTBDiagnosis struct {
+	Code    CodingMTBDiagnosisCode `json:"code"`
+	Display *string                `json:"display,omitempty"`
+	System  *string                `json:"system,omitempty"`
+	Version *string                `json:"version,omitempty"`
+}
+
+type MTBEpisodeOfCare struct {
+	Diagnoses []Reference `json:"diagnoses,omitempty"`
+	ID        string      `json:"id"`
+	Patient   Reference   `json:"patient"`
+	Period    PeriodDate  `json:"period"`
+}
+
+type PeriodDate struct {
 	End   *string `json:"end,omitempty"`
 	Start string  `json:"start"`
 }
 
-type EpisodeOfCare struct {
-	Diagnoses []Reference     `json:"diagnoses,omitempty"`
-	ID        string          `json:"id"`
-	Patient   Reference       `json:"patient"`
-	Period    PeriodLocalDate `json:"period"`
+type FollowUp struct {
+	Date          string                       `json:"date"`
+	PatientStatus *CodingFollowUpPatientStatus `json:"patientStatus,omitempty"`
 }
 
-type OncoProdecure struct {
-	BasedOn      *string                          `json:"basedOn,omitempty"`
-	Code         *Coding                          `json:"code,omitempty"`
-	Diagnosis    *string                          `json:"diagnosis,omitempty"`
-	ID           string                           `json:"id"`
-	Indication   *Reference                       `json:"indication,omitempty"`
-	Notes        *string                          `json:"notes,omitempty"`
-	Patient      GeneticCounsellingRequestPatient `json:"patient"`
-	Period       *PeriodLocalDate                 `json:"period,omitempty"`
-	RecordedOn   *string                          `json:"recordedOn,omitempty"`
-	Status       *CodingTherapyStatus             `json:"status,omitempty"`
-	StatusReason *CodingTherapyStatusReason       `json:"statusReason,omitempty"`
-	TherapyLine  *int64                           `json:"therapyLine,omitempty"`
+type CodingFollowUpPatientStatus struct {
+	Code    PatientStatusCode `json:"code"`
+	Display *string           `json:"display,omitempty"`
+	System  *string           `json:"system,omitempty"`
+	Version *string           `json:"version,omitempty"`
+}
+
+type OncoProcedure struct {
+	BasedOn      *Reference                    `json:"basedOn,omitempty"`
+	Code         CodingOncoProcedure           `json:"code"`
+	ID           string                        `json:"id"`
+	Intent       *CodingMTBTherapyIntent       `json:"intent,omitempty"`
+	Notes        []string                      `json:"notes,omitempty"`
+	Patient      Reference                     `json:"patient"`
+	Period       *PeriodDate                   `json:"period,omitempty"`
+	Reason       *Reference                    `json:"reason,omitempty"`
+	RecordedOn   string                        `json:"recordedOn"`
+	Status       CodingTherapyStatus           `json:"status"`
+	StatusReason *CodingMTBTherapyStatusReason `json:"statusReason,omitempty"`
+	TherapyLine  *int64                        `json:"therapyLine,omitempty"`
+}
+
+type CodingOncoProcedure struct {
+	Code    CodingOncoProcedureCode `json:"code"`
+	Display *string                 `json:"display,omitempty"`
+	System  *string                 `json:"system,omitempty"`
+	Version *string                 `json:"version,omitempty"`
+}
+
+type CodingMTBTherapyIntent struct {
+	Code    IntentCode `json:"code"`
+	Display *string    `json:"display,omitempty"`
+	System  *string    `json:"system,omitempty"`
+	Version *string    `json:"version,omitempty"`
 }
 
 type CodingTherapyStatus struct {
-	Code    TherapyStatus `json:"code"`
-	Display *string       `json:"display,omitempty"`
-	System  *string       `json:"system,omitempty"`
+	Code    CodingTherapyStatusCode `json:"code"`
+	Display *string                 `json:"display,omitempty"`
+	System  *string                 `json:"system,omitempty"`
+	Version *string                 `json:"version,omitempty"`
 }
 
-type CodingTherapyStatusReason struct {
-	Code    StatusReasonCode `json:"code"`
-	Display *string          `json:"display,omitempty"`
-	System  *string          `json:"system,omitempty"`
-	Version *string          `json:"version,omitempty"`
+type CodingMTBTherapyStatusReason struct {
+	Code    CodingMTBTherapyStatusReasonCode `json:"code"`
+	Display *string                          `json:"display,omitempty"`
+	System  *string                          `json:"system,omitempty"`
+	Version *string                          `json:"version,omitempty"`
 }
 
-type GuidelineTherapyElement struct {
-	BasedOn      *Reference                       `json:"basedOn,omitempty"`
-	Diagnosis    *string                          `json:"diagnosis,omitempty"`
-	ID           string                           `json:"id"`
-	Indication   *Reference                       `json:"indication,omitempty"`
-	Medication   []Coding                         `json:"medication,omitempty"`
-	Notes        *string                          `json:"notes,omitempty"`
-	Patient      GeneticCounsellingRequestPatient `json:"patient"`
-	Period       *PeriodLocalDate                 `json:"period,omitempty"`
-	RecordedOn   *string                          `json:"recordedOn,omitempty"`
-	Status       *CodingTherapyStatus             `json:"status,omitempty"`
-	StatusReason *CodingTherapyStatusReason       `json:"statusReason,omitempty"`
-	TherapyLine  *int64                           `json:"therapyLine,omitempty"`
+type MTBSystemicTherapy struct {
+	BasedOn                         *Reference                                               `json:"basedOn,omitempty"`
+	Category                        *CodingMTBSystemicTherapyCategory                        `json:"category,omitempty"`
+	ID                              string                                                   `json:"id"`
+	Intent                          *CodingMTBTherapyIntent                                  `json:"intent,omitempty"`
+	Medication                      []CodingATCUnregisteredMedication                        `json:"medication,omitempty"`
+	Notes                           []string                                                 `json:"notes,omitempty"`
+	Patient                         Reference                                                `json:"patient"`
+	Period                          *PeriodDate                                              `json:"period,omitempty"`
+	Reason                          *Reference                                               `json:"reason,omitempty"`
+	RecommendationFulfillmentStatus *CodingMTBSystemicTherapyRecommendationFulfillmentStatus `json:"recommendationFulfillmentStatus,omitempty"`
+	RecordedOn                      string                                                   `json:"recordedOn"`
+	Status                          CodingTherapyStatus                                      `json:"status"`
+	StatusReason                    *CodingMTBTherapyStatusReason                            `json:"statusReason,omitempty"`
+	TherapyLine                     *int64                                                   `json:"therapyLine,omitempty"`
+}
+
+type CodingMTBSystemicTherapyCategory struct {
+	Code    CodingMTBSystemicTherapyCategoryCode `json:"code"`
+	Display *string                              `json:"display,omitempty"`
+	System  *string                              `json:"system,omitempty"`
+	Version *string                              `json:"version,omitempty"`
+}
+
+type CodingMTBSystemicTherapyRecommendationFulfillmentStatus struct {
+	Code    RecommendationFulfillmentStatusCode `json:"code"`
+	Display *string                             `json:"display,omitempty"`
+	System  *string                             `json:"system,omitempty"`
+	Version *string                             `json:"version,omitempty"`
 }
 
 type HistologyReport struct {
-	ID       string                           `json:"id"`
-	IssuedOn string                           `json:"issuedOn"`
-	Patient  GeneticCounsellingRequestPatient `json:"patient"`
-	Results  HistologyReportResults           `json:"results"`
-	Specimen HistologyReportSpecimen          `json:"specimen"`
+	ID       string                 `json:"id"`
+	IssuedOn string                 `json:"issuedOn"`
+	Patient  Reference              `json:"patient"`
+	Results  HistologyReportResults `json:"results"`
+	Specimen Reference              `json:"specimen"`
 }
 
 type HistologyReportResults struct {
-	TumorCellContent TumorCellContent `json:"tumorCellContent"`
-	TumorMorphology  TumorMorphology  `json:"tumorMorphology"`
+	TumorCellContent *TumorCellContent `json:"tumorCellContent,omitempty"`
+	TumorMorphology  TumorMorphology   `json:"tumorMorphology"`
 }
 
 type TumorCellContent struct {
-	ID       string                            `json:"id"`
-	Method   CodingTumorCellContentMethod      `json:"method"`
-	Patient  *GeneticCounsellingRequestPatient `json:"patient,omitempty"`
-	Specimen TumorCellContentSpecimen          `json:"specimen"`
-	Value    float64                           `json:"value"`
+	ID       string                       `json:"id"`
+	Method   CodingTumorCellContentMethod `json:"method"`
+	Patient  Reference                    `json:"patient"`
+	Specimen Reference                    `json:"specimen"`
+	Value    float64                      `json:"value"`
 }
 
 type CodingTumorCellContentMethod struct {
-	Code    TumorCellContentMethod `json:"code"`
-	Display *string                `json:"display,omitempty"`
-	System  *string                `json:"system,omitempty"`
-}
-
-type TumorCellContentSpecimen struct {
-	ID   string       `json:"id"`
-	Type SpecimenType `json:"type"`
+	Code    CodingTumorCellContentMethodCode `json:"code"`
+	Display *string                          `json:"display,omitempty"`
+	System  *string                          `json:"system,omitempty"`
+	Version *string                          `json:"version,omitempty"`
 }
 
 type TumorMorphology struct {
-	ID       string                           `json:"id"`
-	Notes    *string                          `json:"notes,omitempty"`
-	Patient  GeneticCounsellingRequestPatient `json:"patient"`
-	Specimen TumorMorphologySpecimen          `json:"specimen"`
-	Value    Coding                           `json:"value"`
-}
-
-type TumorMorphologySpecimen struct {
-	ID   string       `json:"id"`
-	Type SpecimenType `json:"type"`
-}
-
-type HistologyReportSpecimen struct {
-	ID   string       `json:"id"`
-	Type SpecimenType `json:"type"`
+	ID       string    `json:"id"`
+	Notes    *string   `json:"notes,omitempty"`
+	Patient  Reference `json:"patient"`
+	Specimen Reference `json:"specimen"`
+	Value    Coding    `json:"value"`
 }
 
 type IHCReport struct {
-	BlockID                  ExternalID                `json:"blockId"`
-	Date                     string                    `json:"date"`
-	ID                       string                    `json:"id"`
-	JournalID                ExternalID                `json:"journalId"`
-	MSIMmrResults            []MSIMmrResult            `json:"msiMmrResults"`
-	Patient                  Reference                 `json:"patient"`
-	ProteinExpressionResults []ProteinExpressionResult `json:"proteinExpressionResults"`
-	Specimen                 Reference                 `json:"specimen"`
+	BlockIDS  []string         `json:"blockIds"`
+	ID        string           `json:"id"`
+	IssuedOn  string           `json:"issuedOn"`
+	JournalID string           `json:"journalId"`
+	Patient   Reference        `json:"patient"`
+	Results   IhcReportResults `json:"results"`
+	Specimen  Reference        `json:"specimen"`
 }
 
-type ExternalID struct {
-	System *string `json:"system,omitempty"`
-	Value  string  `json:"value"`
+type IhcReportResults struct {
+	MSIMmr            []MSIMmr            `json:"msiMmr"`
+	ProteinExpression []ProteinExpression `json:"proteinExpression"`
 }
 
-type MSIMmrResult struct {
+type MSIMmr struct {
 	ICScore  *CodingProteinExpressionICScore `json:"icScore,omitempty"`
 	ID       string                          `json:"id"`
 	Patient  Reference                       `json:"patient"`
@@ -379,13 +496,13 @@ type CodingProteinExpressionTCScore struct {
 }
 
 type CodingProteinExpressionResult struct {
-	Code    ProteinExpressionResultCode `json:"code"`
-	Display *string                     `json:"display,omitempty"`
-	System  *string                     `json:"system,omitempty"`
-	Version *string                     `json:"version,omitempty"`
+	Code    CodingProteinExpressionResultCode `json:"code"`
+	Display *string                           `json:"display,omitempty"`
+	System  *string                           `json:"system,omitempty"`
+	Version *string                           `json:"version,omitempty"`
 }
 
-type ProteinExpressionResult struct {
+type ProteinExpression struct {
 	ICScore  *CodingProteinExpressionICScore `json:"icScore,omitempty"`
 	ID       string                          `json:"id"`
 	Patient  Reference                       `json:"patient"`
@@ -395,22 +512,17 @@ type ProteinExpressionResult struct {
 	Value    CodingProteinExpressionResult   `json:"value"`
 }
 
-type MolecularTherapy struct {
-	History []GuidelineTherapyElement `json:"history"`
+type SomaticNGSReportMetadata struct {
+	ID       string           `json:"id"`
+	IssuedOn string           `json:"issuedOn"`
+	Metadata []Metadata       `json:"metadata"`
+	Patient  Reference        `json:"patient"`
+	Results  NgsReportResults `json:"results"`
+	Specimen Reference        `json:"specimen"`
+	Type     CodingNGSReport  `json:"type"`
 }
 
-type SomaticNGSReport struct {
-	ID             string                           `json:"id"`
-	IssuedOn       *string                          `json:"issuedOn,omitempty"`
-	MSI            *float64                         `json:"msi,omitempty"`
-	Metadata       []Metadatum                      `json:"metadata"`
-	Patient        GeneticCounsellingRequestPatient `json:"patient"`
-	Results        *NgsReportResults                `json:"results,omitempty"`
-	SequencingType Coding                           `json:"sequencingType"`
-	Specimen       NgsReportSpecimen                `json:"specimen"`
-}
-
-type Metadatum struct {
+type Metadata struct {
 	KitManufacturer string `json:"kitManufacturer"`
 	KitType         string `json:"kitType"`
 	Pipeline        string `json:"pipeline"`
@@ -420,12 +532,12 @@ type Metadatum struct {
 
 type NgsReportResults struct {
 	Brcaness           *BRCAness         `json:"brcaness,omitempty"`
-	CopyNumberVariants []Cnv             `json:"copyNumberVariants,omitempty"`
-	DnaFusions         []DNAFusion       `json:"dnaFusions,omitempty"`
+	CopyNumberVariants []Cnv             `json:"copyNumberVariants"`
+	DnaFusions         []DNAFusion       `json:"dnaFusions"`
 	HrdScore           *HRDScore         `json:"hrdScore,omitempty"`
-	RnaFusions         []RNAFusion       `json:"rnaFusions,omitempty"`
-	RnaSeqs            []RNASeq          `json:"rnaSeqs,omitempty"`
-	SimpleVariants     []Snv             `json:"simpleVariants,omitempty"`
+	RnaFusions         []RNAFusion       `json:"rnaFusions"`
+	RnaSeqs            []RNASeq          `json:"rnaSeqs"`
+	SimpleVariants     []Snv             `json:"simpleVariants"`
 	Tmb                *Tmb              `json:"tmb,omitempty"`
 	TumorCellContent   *TumorCellContent `json:"tumorCellContent,omitempty"`
 }
@@ -444,32 +556,21 @@ type ConfidenceRange struct {
 }
 
 type Cnv struct {
-	CNA                   *float64                          `json:"cnA,omitempty"`
-	CNB                   *float64                          `json:"cnB,omitempty"`
-	Chromosome            CodingChromosome                  `json:"chromosome"`
-	CopyNumberNeutralLoH  []CodingGene                      `json:"copyNumberNeutralLoH,omitempty"`
-	EndRange              EndRange                          `json:"endRange"`
-	ID                    string                            `json:"id"`
-	Indication            *Reference                        `json:"indication,omitempty"`
-	Patient               *GeneticCounsellingRequestPatient `json:"patient,omitempty"`
-	RelativeCopyNumber    *float64                          `json:"relativeCopyNumber,omitempty"`
-	ReportedAffectedGenes []CodingGene                      `json:"reportedAffectedGenes,omitempty"`
-	ReportedFocality      *string                           `json:"reportedFocality,omitempty"`
-	StartRange            StartRange                        `json:"startRange"`
-	TotalCopyNumber       *int64                            `json:"totalCopyNumber,omitempty"`
-	Type                  CodingCNVType                     `json:"type"`
-}
-
-type CodingChromosome struct {
-	Code    ChromosomeCode    `json:"code"`
-	Display *string           `json:"display,omitempty"`
-	System  *ChromosomeSystem `json:"system,omitempty"`
-}
-
-type CodingGene struct {
-	Code    string      `json:"code"`
-	Display *string     `json:"display,omitempty"`
-	System  *GeneSystem `json:"system,omitempty"`
+	CNA                   *float64                        `json:"cnA,omitempty"`
+	CNB                   *float64                        `json:"cnB,omitempty"`
+	Chromosome            Chromosome                      `json:"chromosome"`
+	CopyNumberNeutralLoH  []Coding                        `json:"copyNumberNeutralLoH,omitempty"`
+	EndRange              *EndRange                       `json:"endRange,omitempty"`
+	ExternalIDS           []VariantExternalID             `json:"externalIds,omitempty"`
+	ID                    string                          `json:"id"`
+	Localization          []CodingBaseVariantLocalization `json:"localization,omitempty"`
+	Patient               Reference                       `json:"patient"`
+	RelativeCopyNumber    *float64                        `json:"relativeCopyNumber,omitempty"`
+	ReportedAffectedGenes []Coding                        `json:"reportedAffectedGenes,omitempty"`
+	ReportedFocality      *string                         `json:"reportedFocality,omitempty"`
+	StartRange            *StartRange                     `json:"startRange,omitempty"`
+	TotalCopyNumber       *int64                          `json:"totalCopyNumber,omitempty"`
+	Type                  CodingCNV                       `json:"type"`
 }
 
 type EndRange struct {
@@ -477,48 +578,59 @@ type EndRange struct {
 	Start float64  `json:"start"`
 }
 
+type VariantExternalID struct {
+	System ExternalIDSystem `json:"system"`
+	Value  string           `json:"value"`
+}
+
+type CodingBaseVariantLocalization struct {
+	Code    CodingBaseVariantLocalizationCode `json:"code"`
+	Display *string                           `json:"display,omitempty"`
+	System  *string                           `json:"system,omitempty"`
+	Version *string                           `json:"version,omitempty"`
+}
+
 type StartRange struct {
 	End   *float64 `json:"end,omitempty"`
 	Start float64  `json:"start"`
 }
 
-type CodingCNVType struct {
-	Code    CNVType `json:"code"`
-	Display *string `json:"display,omitempty"`
-	System  *string `json:"system,omitempty"`
+type CodingCNV struct {
+	Code    CodingCNVCode `json:"code"`
+	Display *string       `json:"display,omitempty"`
+	System  *string       `json:"system,omitempty"`
+	Version *string       `json:"version,omitempty"`
 }
 
 type DNAFusion struct {
-	FusionPartner3Prime DnaFusionFusionPartner3Prime `json:"fusionPartner3prime"`
-	FusionPartner5Prime DnaFusionFusionPartner5Prime `json:"fusionPartner5prime"`
-	ID                  string                       `json:"id"`
-	ReportedNumReads    int64                        `json:"reportedNumReads"`
+	ExternalIDS         []VariantExternalID             `json:"externalIds,omitempty"`
+	FusionPartner3Prime DnaFusionFusionPartner3Prime    `json:"fusionPartner3prime"`
+	FusionPartner5Prime DnaFusionFusionPartner5Prime    `json:"fusionPartner5prime"`
+	ID                  string                          `json:"id"`
+	Localization        []CodingBaseVariantLocalization `json:"localization,omitempty"`
+	Patient             Reference                       `json:"patient"`
+	ReportedNumReads    int64                           `json:"reportedNumReads"`
 }
 
 type DnaFusionFusionPartner3Prime struct {
-	Chromosome CodingChromosome `json:"chromosome"`
-	Gene       CodingGene       `json:"gene"`
-	Position   float64          `json:"position"`
+	Chromosome Chromosome `json:"chromosome"`
+	Gene       Coding     `json:"gene"`
+	Position   float64    `json:"position"`
 }
 
 type DnaFusionFusionPartner5Prime struct {
-	Chromosome CodingChromosome `json:"chromosome"`
-	Gene       Gene             `json:"gene"`
-	Position   float64          `json:"position"`
-}
-
-type Gene struct {
-	EnsemblID *string `json:"ensemblId,omitempty"`
-	HgncID    *string `json:"hgncId,omitempty"`
+	Chromosome Chromosome `json:"chromosome"`
+	Gene       Coding     `json:"gene"`
+	Position   float64    `json:"position"`
 }
 
 type HRDScore struct {
-	Components     Components `json:"components"`
-	ID             string     `json:"id"`
-	Interpretation *Coding    `json:"interpretation,omitempty"`
-	Patient        Reference  `json:"patient"`
-	Specimen       Reference  `json:"specimen"`
-	Value          float64    `json:"value"`
+	Components     Components                    `json:"components"`
+	ID             string                        `json:"id"`
+	Interpretation *CodingHRDScoreInterpretation `json:"interpretation,omitempty"`
+	Patient        Reference                     `json:"patient"`
+	Specimen       Reference                     `json:"specimen"`
+	Value          float64                       `json:"value"`
 }
 
 type Components struct {
@@ -527,63 +639,84 @@ type Components struct {
 	Tai float64 `json:"tai"`
 }
 
+type CodingHRDScoreInterpretation struct {
+	Code    InterpretationCode `json:"code"`
+	Display *string            `json:"display,omitempty"`
+	System  *string            `json:"system,omitempty"`
+	Version *string            `json:"version,omitempty"`
+}
+
 type RNAFusion struct {
-	CosmicID            *string                      `json:"cosmicId,omitempty"`
-	Effect              *string                      `json:"effect,omitempty"`
-	FusionPartner3Prime RnaFusionFusionPartner3Prime `json:"fusionPartner3prime"`
-	FusionPartner5Prime RnaFusionFusionPartner5Prime `json:"fusionPartner5prime"`
-	ID                  string                       `json:"id"`
-	ReportedNumReads    int64                        `json:"reportedNumReads"`
+	Effect              *string                         `json:"effect,omitempty"`
+	ExternalIDS         []VariantExternalID             `json:"externalIds,omitempty"`
+	FusionPartner3Prime RnaFusionFusionPartner3Prime    `json:"fusionPartner3prime"`
+	FusionPartner5Prime RnaFusionFusionPartner5Prime    `json:"fusionPartner5prime"`
+	ID                  string                          `json:"id"`
+	Localization        []CodingBaseVariantLocalization `json:"localization,omitempty"`
+	Patient             Reference                       `json:"patient"`
+	ReportedNumReads    int64                           `json:"reportedNumReads"`
 }
 
 type RnaFusionFusionPartner3Prime struct {
-	Exon         string     `json:"exon"`
-	Gene         CodingGene `json:"gene"`
-	Position     float64    `json:"position"`
-	Strand       StrandEnum `json:"strand"`
-	TranscriptID string     `json:"transcriptId"`
+	ExonID       string       `json:"exonId"`
+	Gene         Coding       `json:"gene"`
+	Position     float64      `json:"position"`
+	Strand       StrandEnum   `json:"strand"`
+	TranscriptID TranscriptID `json:"transcriptId"`
+}
+
+type TranscriptID struct {
+	System TranscriptIDSystem `json:"system"`
+	Value  string             `json:"value"`
 }
 
 type RnaFusionFusionPartner5Prime struct {
-	Exon         string     `json:"exon"`
-	Gene         CodingGene `json:"gene"`
-	Position     float64    `json:"position"`
-	Strand       StrandEnum `json:"strand"`
-	TranscriptID string     `json:"transcriptId"`
+	ExonID       string       `json:"exonId"`
+	Gene         Coding       `json:"gene"`
+	Position     float64      `json:"position"`
+	Strand       StrandEnum   `json:"strand"`
+	TranscriptID TranscriptID `json:"transcriptId"`
 }
 
 type RNASeq struct {
-	CohortRanking               *int64     `json:"cohortRanking,omitempty"`
-	EnsemblID                   string     `json:"ensemblId"`
-	EntrezID                    string     `json:"entrezId"`
-	FragmentsPerKilobaseMillion float64    `json:"fragmentsPerKilobaseMillion"`
-	FromNGS                     bool       `json:"fromNGS"`
-	Gene                        CodingGene `json:"gene"`
-	ID                          string     `json:"id"`
-	LibrarySize                 int64      `json:"librarySize"`
-	RawCounts                   int64      `json:"rawCounts"`
-	TissueCorrectedExpression   bool       `json:"tissueCorrectedExpression"`
-	TranscriptID                string     `json:"transcriptId"`
+	CohortRanking             *int64                          `json:"cohortRanking,omitempty"`
+	ExternalIDS               []VariantExternalID             `json:"externalIds,omitempty"`
+	Gene                      *Coding                         `json:"gene,omitempty"`
+	ID                        string                          `json:"id"`
+	LibrarySize               *int64                          `json:"librarySize,omitempty"`
+	Localization              []CodingBaseVariantLocalization `json:"localization,omitempty"`
+	Patient                   Reference                       `json:"patient"`
+	RawCounts                 int64                           `json:"rawCounts"`
+	TissueCorrectedExpression *bool                           `json:"tissueCorrectedExpression,omitempty"`
+	TranscriptID              *TranscriptID                   `json:"transcriptId,omitempty"`
+	TranscriptsPerMillion     float64                         `json:"transcriptsPerMillion"`
+	Variant                   Reference                       `json:"variant"`
 }
 
 type Snv struct {
-	AllelicFrequency float64                          `json:"allelicFrequency"`
-	AltAllele        string                           `json:"altAllele"`
-	AminoAcidChange  *Coding                          `json:"aminoAcidChange,omitempty"`
-	Chromosome       CodingChromosome                 `json:"chromosome"`
-	CosmicID         *string                          `json:"cosmicId,omitempty"`
-	DBSNPID          *string                          `json:"dbSNPId,omitempty"`
-	DnaChange        *Coding                          `json:"dnaChange,omitempty"`
-	ExternalIDS      []ExternalID                     `json:"externalIds,omitempty"`
-	Gene             *CodingGene                      `json:"gene,omitempty"`
-	ID               string                           `json:"id"`
-	Interpretation   *Coding                          `json:"interpretation,omitempty"`
-	Patient          GeneticCounsellingRequestPatient `json:"patient"`
-	Position         Position                         `json:"position"`
-	ProteinChange    *Coding                          `json:"proteinChange,omitempty"`
-	ReadDepth        int64                            `json:"readDepth"`
-	RefAllele        string                           `json:"refAllele"`
-	TranscriptID     *ExternalID                      `json:"transcriptId,omitempty"`
+	AllelicFrequency float64                         `json:"allelicFrequency"`
+	AltAllele        string                          `json:"altAllele"`
+	Chromosome       Chromosome                      `json:"chromosome"`
+	DnaChange        *Coding                         `json:"dnaChange,omitempty"`
+	ExonID           *string                         `json:"exonId,omitempty"`
+	ExternalIDS      []VariantExternalID             `json:"externalIds,omitempty"`
+	Gene             *Coding                         `json:"gene,omitempty"`
+	ID               string                          `json:"id"`
+	Interpretation   *CodingClinVar                  `json:"interpretation,omitempty"`
+	Localization     []CodingBaseVariantLocalization `json:"localization,omitempty"`
+	Patient          Reference                       `json:"patient"`
+	Position         Position                        `json:"position"`
+	ProteinChange    *Coding                         `json:"proteinChange,omitempty"`
+	ReadDepth        int64                           `json:"readDepth"`
+	RefAllele        string                          `json:"refAllele"`
+	TranscriptID     TranscriptID                    `json:"transcriptId"`
+}
+
+type CodingClinVar struct {
+	Code    CodingClinVarCode `json:"code"`
+	Display *string           `json:"display,omitempty"`
+	System  *string           `json:"system,omitempty"`
+	Version *string           `json:"version,omitempty"`
 }
 
 type Position struct {
@@ -592,141 +725,191 @@ type Position struct {
 }
 
 type Tmb struct {
-	ID             string    `json:"id"`
-	Interpretation *Coding   `json:"interpretation,omitempty"`
-	Patient        Reference `json:"patient"`
-	Specimen       Reference `json:"specimen"`
-	Value          Value     `json:"value"`
+	ID             string                   `json:"id"`
+	Interpretation *CodingTMBInterpretation `json:"interpretation,omitempty"`
+	Patient        Reference                `json:"patient"`
+	Specimen       Reference                `json:"specimen"`
+	Value          TMBResult                `json:"value"`
 }
 
-type Value struct {
-	Unit  string  `json:"unit"`
+type CodingTMBInterpretation struct {
+	Code    InterpretationCode `json:"code"`
+	Display *string            `json:"display,omitempty"`
+	System  *string            `json:"system,omitempty"`
+	Version *string            `json:"version,omitempty"`
+}
+
+type TMBResult struct {
+	Unit  *string `json:"unit,omitempty"`
 	Value float64 `json:"value"`
 }
 
-type NgsReportSpecimen struct {
-	ID   string       `json:"id"`
-	Type SpecimenType `json:"type"`
+type CodingNGSReport struct {
+	Code    CodingNGSReportCode `json:"code"`
+	Display *string             `json:"display,omitempty"`
+	System  *string             `json:"system,omitempty"`
+	Version *string             `json:"version,omitempty"`
 }
 
-type MtbPatient struct {
-	Address         *Address         `json:"address,omitempty"`
-	Age             *ValueWithUnit   `json:"age,omitempty"`
-	BirthDate       string           `json:"birthDate"`
-	DateOfDeath     *string          `json:"dateOfDeath,omitempty"`
-	Gender          CodingGender     `json:"gender"`
-	HealthInsurance *HealthInsurance `json:"healthInsurance,omitempty"`
-	ID              string           `json:"id"`
-	VitalStatus     *VitalStatus     `json:"vitalStatus,omitempty"`
+type Patient struct {
+	Address         Address            `json:"address"`
+	Age             *Age               `json:"age,omitempty"`
+	BirthDate       string             `json:"birthDate"`
+	DateOfDeath     *string            `json:"dateOfDeath,omitempty"`
+	Gender          CodingGender       `json:"gender"`
+	HealthInsurance HealthInsurance    `json:"healthInsurance"`
+	ID              string             `json:"id"`
+	ManagingSite    *Coding            `json:"managingSite,omitempty"`
+	VitalStatus     *CodingVitalStatus `json:"vitalStatus,omitempty"`
 }
 
 type Address struct {
 	MunicipalityCode string `json:"municipalityCode"`
 }
 
-type ValueWithUnit struct {
+type Age struct {
 	Unit  Unit    `json:"unit"`
 	Value float64 `json:"value"`
 }
 
 type CodingGender struct {
-	Code    Gender  `json:"code"`
-	Display *string `json:"display,omitempty"`
-	System  *string `json:"system,omitempty"`
-	Version *string `json:"version,omitempty"`
-}
-
-type HealthInsurance struct {
-	Display *string    `json:"display,omitempty"`
-	EXTID   ExternalID `json:"extId"`
-	Type    *Type      `json:"type,omitempty"`
-}
-
-type VitalStatus struct {
-	Code    VitalStatusCode `json:"code"`
-	Display *string         `json:"display,omitempty"`
-	System  *string         `json:"system,omitempty"`
-}
-
-type PerformanceStatus struct {
-	EffectiveDate string                           `json:"effectiveDate"`
-	ID            string                           `json:"id"`
-	Patient       GeneticCounsellingRequestPatient `json:"patient"`
-	Value         CodingECOG                       `json:"value"`
-}
-
-type CodingECOG struct {
-	Code    EcogCode `json:"code"`
-	Display *string  `json:"display,omitempty"`
-	System  *string  `json:"system,omitempty"`
-	Version *string  `json:"version,omitempty"`
-}
-
-type Response struct {
-	EffectiveDate string                           `json:"effectiveDate"`
-	ID            string                           `json:"id"`
-	Patient       GeneticCounsellingRequestPatient `json:"patient"`
-	Therapy       ResponseTherapy                  `json:"therapy"`
-	Value         CodingRECIST                     `json:"value"`
-}
-
-type ResponseTherapy struct {
-	ID   string              `json:"id"`
-	Type ResponseTherapyType `json:"type"`
-}
-
-type CodingRECIST struct {
-	Code    RecistCode `json:"code"`
+	Code    GenderCode `json:"code"`
 	Display *string    `json:"display,omitempty"`
 	System  *string    `json:"system,omitempty"`
 	Version *string    `json:"version,omitempty"`
 }
 
-type SpecimenElement struct {
-	Collection *Collection                      `json:"collection,omitempty"`
-	Diagnosis  *Diagnosis                       `json:"diagnosis,omitempty"`
-	ID         string                           `json:"id"`
-	Patient    GeneticCounsellingRequestPatient `json:"patient"`
-	Type       *CodingTumorSpecimenType         `json:"type,omitempty"`
+type HealthInsurance struct {
+	Reference *Reference            `json:"reference,omitempty"`
+	Type      CodingHealthInsurance `json:"type"`
+}
+
+type CodingHealthInsurance struct {
+	Code    CodingHealthInsuranceCode `json:"code"`
+	Display *string                   `json:"display,omitempty"`
+	System  *string                   `json:"system,omitempty"`
+	Version *string                   `json:"version,omitempty"`
+}
+
+type CodingVitalStatus struct {
+	Code    VitalStatusCode `json:"code"`
+	Display *string         `json:"display,omitempty"`
+	System  *string         `json:"system,omitempty"`
+	Version *string         `json:"version,omitempty"`
+}
+
+type PerformanceStatus struct {
+	EffectiveDate string     `json:"effectiveDate"`
+	ID            string     `json:"id"`
+	Patient       Reference  `json:"patient"`
+	Value         CodingECOG `json:"value"`
+}
+
+type CodingECOG struct {
+	Code    CodingECOGCode `json:"code"`
+	Display *string        `json:"display,omitempty"`
+	System  *string        `json:"system,omitempty"`
+	Version *string        `json:"version,omitempty"`
+}
+
+type PriorDiagnosticReport struct {
+	ID        string                          `json:"id"`
+	IssuedOn  string                          `json:"issuedOn"`
+	Patient   Reference                       `json:"patient"`
+	Performer *Reference                      `json:"performer,omitempty"`
+	Results   []string                        `json:"results,omitempty"`
+	Specimen  Reference                       `json:"specimen"`
+	Type      CodingMolecularDiagnosticReport `json:"type"`
+}
+
+type CodingMolecularDiagnosticReport struct {
+	Code    CodingMolecularDiagnosticReportCode `json:"code"`
+	Display *string                             `json:"display,omitempty"`
+	System  *string                             `json:"system,omitempty"`
+	Version *string                             `json:"version,omitempty"`
+}
+
+type Response struct {
+	EffectiveDate string               `json:"effectiveDate"`
+	ID            string               `json:"id"`
+	Method        CodingResponseMethod `json:"method"`
+	Patient       Reference            `json:"patient"`
+	Therapy       Reference            `json:"therapy"`
+	Value         CodingRECIST         `json:"value"`
+}
+
+type CodingResponseMethod struct {
+	Code    CodingResponseMethodCode `json:"code"`
+	Display *string                  `json:"display,omitempty"`
+	System  *string                  `json:"system,omitempty"`
+	Version *string                  `json:"version,omitempty"`
+}
+
+type CodingRECIST struct {
+	Code    CodingRECISTCode `json:"code"`
+	Display *string          `json:"display,omitempty"`
+	System  *string          `json:"system,omitempty"`
+	Version *string          `json:"version,omitempty"`
+}
+
+type TumorSpecimen struct {
+	Collection *Collection         `json:"collection,omitempty"`
+	Diagnosis  Reference           `json:"diagnosis"`
+	ID         string              `json:"id"`
+	Patient    Reference           `json:"patient"`
+	Type       CodingTumorSpecimen `json:"type"`
 }
 
 type Collection struct {
-	Date         string                                    `json:"date"`
+	Date         *string                                   `json:"date,omitempty"`
 	Localization CodingTumorSpecimenCollectionLocalization `json:"localization"`
 	Method       CodingTumorSpecimenCollectionMethod       `json:"method"`
 }
 
 type CodingTumorSpecimenCollectionLocalization struct {
-	Code    TumorSpecimenCollectionLocalization `json:"code"`
-	Display *string                             `json:"display,omitempty"`
-	System  *string                             `json:"system,omitempty"`
+	Code    CodingTumorSpecimenCollectionLocalizationCode `json:"code"`
+	Display *string                                       `json:"display,omitempty"`
+	System  *string                                       `json:"system,omitempty"`
+	Version *string                                       `json:"version,omitempty"`
 }
 
 type CodingTumorSpecimenCollectionMethod struct {
-	Code    TumorSpecimenCollectionMethod `json:"code"`
-	Display *string                       `json:"display,omitempty"`
-	System  *string                       `json:"system,omitempty"`
+	Code    CodingTumorSpecimenCollectionMethodCode `json:"code"`
+	Display *string                                 `json:"display,omitempty"`
+	System  *string                                 `json:"system,omitempty"`
+	Version *string                                 `json:"version,omitempty"`
 }
 
-type Diagnosis struct {
-	ID   string `json:"id"`
-	Type string `json:"type"`
+type CodingTumorSpecimen struct {
+	Code    CodingTumorSpecimenCode `json:"code"`
+	Display *string                 `json:"display,omitempty"`
+	System  *string                 `json:"system,omitempty"`
+	Version *string                 `json:"version,omitempty"`
 }
 
-type CodingTumorSpecimenType struct {
-	Code    TumorSpecimenType `json:"code"`
-	Display *string           `json:"display,omitempty"`
-	System  *string           `json:"system,omitempty"`
+type SystemicTherapy struct {
+	History []MTBSystemicTherapy `json:"history"`
 }
 
-type Therapy struct {
-	History []GuidelineTherapyElement `json:"history"`
-}
-
-type PatientType string
+type ReasonCode string
 
 const (
-	Patient PatientType = "Patient"
+	FamilyAnamnesis ReasonCode = "family-anamnesis"
+	PurpleOther     ReasonCode = "other"
+	PurpleUnknown   ReasonCode = "unknown"
+	SecondaryTumor  ReasonCode = "secondary-tumor"
+	SelfAnamnesis   ReasonCode = "self-anamnesis"
+)
+
+type CodingMTBMedicationRecommendationCategoryCode string
+
+const (
+	Ch       CodingMTBMedicationRecommendationCategoryCode = "CH"
+	Ho       CodingMTBMedicationRecommendationCategoryCode = "HO"
+	IM       CodingMTBMedicationRecommendationCategoryCode = "IM"
+	PurpleSO CodingMTBMedicationRecommendationCategoryCode = "SO"
+	Sz       CodingMTBMedicationRecommendationCategoryCode = "SZ"
+	Zs       CodingMTBMedicationRecommendationCategoryCode = "ZS"
 )
 
 type AddendumCode string
@@ -738,205 +921,314 @@ const (
 	Z  AddendumCode = "Z"
 )
 
-type GradingCode string
+type LevelOfEvidenceCode string
 
 const (
-	M1A       GradingCode = "m1A"
-	M1B       GradingCode = "m1B"
-	M1C       GradingCode = "m1C"
-	M2A       GradingCode = "m2A"
-	M2B       GradingCode = "m2B"
-	M2C       GradingCode = "m2C"
-	M3        GradingCode = "m3"
-	M4        GradingCode = "m4"
-	Undefined GradingCode = "undefined"
+	CodeUndefined LevelOfEvidenceCode = "undefined"
+	M1A           LevelOfEvidenceCode = "m1A"
+	M1B           LevelOfEvidenceCode = "m1B"
+	M1C           LevelOfEvidenceCode = "m1C"
+	M2A           LevelOfEvidenceCode = "m2A"
+	M2B           LevelOfEvidenceCode = "m2B"
+	M2C           LevelOfEvidenceCode = "m2C"
+	M3            LevelOfEvidenceCode = "m3"
+	M4            LevelOfEvidenceCode = "m4"
 )
 
-type EXTIDSystem string
+type PublicationSystem string
 
 const (
-	HTTPSPubmedNcbiNlmNihGov EXTIDSystem = "https://pubmed.ncbi.nlm.nih.gov/"
+	HTTPSPubmedNcbiNlmNihGov PublicationSystem = "https://pubmed.ncbi.nlm.nih.gov"
+	HTTPSWWWDoiOrg           PublicationSystem = "https://www.doi.org"
 )
 
-type TherapyRecommendationPriority string
+type RequestedMedicationSystem string
 
 const (
-	Prio1 TherapyRecommendationPriority = "1"
-	Prio2 TherapyRecommendationPriority = "2"
-	Prio3 TherapyRecommendationPriority = "3"
-	Prio4 TherapyRecommendationPriority = "4"
+	HTTPFhirDeCodeSystemBfarmAtc RequestedMedicationSystem = "http://fhir.de/CodeSystem/bfarm/atc"
+	SystemUndefined              RequestedMedicationSystem = "undefined"
 )
 
-type ClaimResponseClaimType string
+type PriorityCode string
 
 const (
-	Claim ClaimResponseClaimType = "Claim"
+	Purple1 PriorityCode = "1"
+	Purple2 PriorityCode = "2"
+	Purple3 PriorityCode = "3"
+	Purple4 PriorityCode = "4"
 )
 
-type ClaimResponseStatus string
+type UseTypeCode string
 
 const (
-	Accepted                   ClaimResponseStatus = "accepted"
-	ClaimResponseStatusUnknown ClaimResponseStatus = "unknown"
-	Rejected                   ClaimResponseStatus = "rejected"
+	Compassionate UseTypeCode = "compassionate"
+	FluffyUnknown UseTypeCode = "unknown"
+	InLabel       UseTypeCode = "in-label"
+	OffLabel      UseTypeCode = "off-label"
+	SECPreventive UseTypeCode = "sec-preventive"
 )
 
-type ClaimResponseStatusReason string
+type CodingMTBProcedureRecommendationCategoryCode string
 
 const (
-	ApprovalRevocation               ClaimResponseStatusReason = "approval-revocation"
-	ClaimResponseStatusReasonOther   ClaimResponseStatusReason = "other"
-	ClaimResponseStatusReasonUnknown ClaimResponseStatusReason = "unknown"
-	FormalReasons                    ClaimResponseStatusReason = "formal-reasons"
-	InclusionInStudy                 ClaimResponseStatusReason = "inclusion-in-study"
-	InsufficientEvidence             ClaimResponseStatusReason = "insufficient-evidence"
-	OtherTherapyRecommended          ClaimResponseStatusReason = "other-therapy-recommended"
-	StandardTherapyNotExhausted      ClaimResponseStatusReason = "standard-therapy-not-exhausted"
+	As       CodingMTBProcedureRecommendationCategoryCode = "AS"
+	FluffySO CodingMTBProcedureRecommendationCategoryCode = "SO"
+	Op       CodingMTBProcedureRecommendationCategoryCode = "OP"
+	St       CodingMTBProcedureRecommendationCategoryCode = "ST"
+	Ws       CodingMTBProcedureRecommendationCategoryCode = "WS"
+	Ww       CodingMTBProcedureRecommendationCategoryCode = "WW"
+)
+
+type CodingMTBCarePlanStatusReasonCode string
+
+const (
+	FluffyOther                    CodingMTBCarePlanStatusReasonCode = "other"
+	NoTarget                       CodingMTBCarePlanStatusReasonCode = "no-target"
+	NonGeneticCause                CodingMTBCarePlanStatusReasonCode = "non-genetic-cause"
+	NotRareDisease                 CodingMTBCarePlanStatusReasonCode = "not-rare-disease"
+	Psychosomatic                  CodingMTBCarePlanStatusReasonCode = "psychosomatic"
+	TargetedDiagnosticsRecommended CodingMTBCarePlanStatusReasonCode = "targeted-diagnostics-recommended"
+)
+
+type StudySystem string
+
+const (
+	Drks    StudySystem = "DRKS"
+	Eudamed StudySystem = "EUDAMED"
+	EudraCT StudySystem = "Eudra-CT"
+	Nct     StudySystem = "NCT"
+)
+
+type CodingClaimResponseStatusCode string
+
+const (
+	Accepted         CodingClaimResponseStatusCode = "accepted"
+	Rejected         CodingClaimResponseStatusCode = "rejected"
+	TentacledUnknown CodingClaimResponseStatusCode = "unknown"
+)
+
+type CodingClaimResponseStatusReasonCode string
+
+const (
+	ApprovalRevocation          CodingClaimResponseStatusReasonCode = "approval-revocation"
+	FormalReasons               CodingClaimResponseStatusReasonCode = "formal-reasons"
+	InclusionInStudy            CodingClaimResponseStatusReasonCode = "inclusion-in-study"
+	InsufficientEvidence        CodingClaimResponseStatusReasonCode = "insufficient-evidence"
+	OtherTherapyRecommended     CodingClaimResponseStatusReasonCode = "other-therapy-recommended"
+	StandardTherapyNotExhausted CodingClaimResponseStatusReasonCode = "standard-therapy-not-exhausted"
+	StickyUnknown               CodingClaimResponseStatusReasonCode = "unknown"
+	TentacledOther              CodingClaimResponseStatusReasonCode = "other"
 )
 
 type StageCode string
 
 const (
-	Local         StageCode = "local"
-	Metastasized  StageCode = "metastasized"
-	PurpleUnknown StageCode = "unknown"
-	TumorFree     StageCode = "tumor-free"
+	FollowUpClaim StageCode = "follow-up-claim"
+	IndigoUnknown StageCode = "unknown"
+	InitialClaim  StageCode = "initial-claim"
+	Revocation    StageCode = "revocation"
 )
 
-type TumorGradeCode string
+type GuidelineTreatmentStatusCode string
 
 const (
-	G1 TumorGradeCode = "G1"
-	G2 TumorGradeCode = "G2"
-	G3 TumorGradeCode = "G3"
-	G4 TumorGradeCode = "G4"
-	Gx TumorGradeCode = "GX"
+	Exhausted             GuidelineTreatmentStatusCode = "exhausted"
+	Impossible            GuidelineTreatmentStatusCode = "impossible"
+	IndecentUnknown       GuidelineTreatmentStatusCode = "unknown"
+	NoGuidelinesAvailable GuidelineTreatmentStatusCode = "no-guidelines-available"
+	NonExhausted          GuidelineTreatmentStatusCode = "non-exhausted"
 )
 
-type TherapyStatus string
+type CodingTumorStagingMethodCode string
 
 const (
-	Completed            TherapyStatus = "completed"
-	NotDone              TherapyStatus = "not-done"
-	OnGoing              TherapyStatus = "on-going"
-	Stopped              TherapyStatus = "stopped"
-	TherapyStatusUnknown TherapyStatus = "unknown"
+	Clinical   CodingTumorStagingMethodCode = "clinical"
+	Pathologic CodingTumorStagingMethodCode = "pathologic"
 )
 
-type StatusReasonCode string
+type CodingMTBDiagnosisCode string
 
 const (
-	ChronicRemission    StatusReasonCode = "chronic-remission"
-	CodeOther           StatusReasonCode = "other"
-	ContinuedExternally StatusReasonCode = "continued-externally"
-	Deterioration       StatusReasonCode = "deterioration"
-	FluffyUnknown       StatusReasonCode = "unknown"
-	LostToFu            StatusReasonCode = "lost-to-fu"
-	MedicalReason       StatusReasonCode = "medical-reason"
-	NoIndication        StatusReasonCode = "no-indication"
-	OtherTherapyChosen  StatusReasonCode = "other-therapy-chosen"
-	PatientDeath        StatusReasonCode = "patient-death"
-	PatientRefusal      StatusReasonCode = "patient-refusal"
-	PatientWish         StatusReasonCode = "patient-wish"
-	PaymentEnded        StatusReasonCode = "payment-ended"
-	PaymentPending      StatusReasonCode = "payment-pending"
-	PaymentRefused      StatusReasonCode = "payment-refused"
-	Progression         StatusReasonCode = "progression"
-	Toxicity            StatusReasonCode = "toxicity"
+	Main         CodingMTBDiagnosisCode = "main"
+	Metachronous CodingMTBDiagnosisCode = "metachronous"
+	Secondary    CodingMTBDiagnosisCode = "secondary"
 )
 
-type TumorCellContentMethod string
+type PatientStatusCode string
 
 const (
-	Bioinformatic TumorCellContentMethod = "bioinformatic"
-	Histologic    TumorCellContentMethod = "histologic"
+	PurpleLostToFu PatientStatusCode = "lost-to-fu"
 )
 
-type SpecimenType string
+type CodingOncoProcedureCode string
 
 const (
-	TumorSpecimen SpecimenType = "TumorSpecimen"
+	NuclearMedicine CodingOncoProcedureCode = "nuclear-medicine"
+	RadioTherapy    CodingOncoProcedureCode = "radio-therapy"
+	Surgery         CodingOncoProcedureCode = "surgery"
+)
+
+type IntentCode string
+
+const (
+	K       IntentCode = "K"
+	P       IntentCode = "P"
+	PurpleS IntentCode = "S"
+	X       IntentCode = "X"
+)
+
+type CodingTherapyStatusCode string
+
+const (
+	Completed        CodingTherapyStatusCode = "completed"
+	HilariousUnknown CodingTherapyStatusCode = "unknown"
+	NotDone          CodingTherapyStatusCode = "not-done"
+	OnGoing          CodingTherapyStatusCode = "on-going"
+	Stopped          CodingTherapyStatusCode = "stopped"
+)
+
+type CodingMTBTherapyStatusReasonCode string
+
+const (
+	BestSupportiveCare                   CodingMTBTherapyStatusReasonCode = "best-supportive-care"
+	ChronicRemission                     CodingMTBTherapyStatusReasonCode = "chronic-remission"
+	Deterioration                        CodingMTBTherapyStatusReasonCode = "deterioration"
+	FluffyLostToFu                       CodingMTBTherapyStatusReasonCode = "lost-to-fu"
+	MedicalReasons                       CodingMTBTherapyStatusReasonCode = "medical-reasons"
+	NoIndication                         CodingMTBTherapyStatusReasonCode = "no-indication"
+	OtherTherapyChosen                   CodingMTBTherapyStatusReasonCode = "other-therapy-chosen"
+	PatientDeath                         CodingMTBTherapyStatusReasonCode = "patient-death"
+	PatientRefusal                       CodingMTBTherapyStatusReasonCode = "patient-refusal"
+	PatientWish                          CodingMTBTherapyStatusReasonCode = "patient-wish"
+	PaymentEnded                         CodingMTBTherapyStatusReasonCode = "payment-ended"
+	PaymentPending                       CodingMTBTherapyStatusReasonCode = "payment-pending"
+	PaymentRefused                       CodingMTBTherapyStatusReasonCode = "payment-refused"
+	Progression                          CodingMTBTherapyStatusReasonCode = "progression"
+	RegularCompletion                    CodingMTBTherapyStatusReasonCode = "regular-completion"
+	RegularCompletionWithDosageReduction CodingMTBTherapyStatusReasonCode = "regular-completion-with-dosage-reduction"
+	RegularCompletionWithSubstanceChange CodingMTBTherapyStatusReasonCode = "regular-completion-with-substance-change"
+	StickyOther                          CodingMTBTherapyStatusReasonCode = "other"
+	Toxicity                             CodingMTBTherapyStatusReasonCode = "toxicity"
+)
+
+type CodingMTBSystemicTherapyCategoryCode string
+
+const (
+	A       CodingMTBSystemicTherapyCategoryCode = "A"
+	FluffyS CodingMTBSystemicTherapyCategoryCode = "S"
+	I       CodingMTBSystemicTherapyCategoryCode = "I"
+	N       CodingMTBSystemicTherapyCategoryCode = "N"
+	O       CodingMTBSystemicTherapyCategoryCode = "O"
+)
+
+type RecommendationFulfillmentStatusCode string
+
+const (
+	Complete RecommendationFulfillmentStatusCode = "complete"
+	Partial  RecommendationFulfillmentStatusCode = "partial"
+)
+
+type CodingTumorCellContentMethodCode string
+
+const (
+	Bioinformatic CodingTumorCellContentMethodCode = "bioinformatic"
+	Histologic    CodingTumorCellContentMethodCode = "histologic"
 )
 
 type ICScoreCode string
 
 const (
-	ICScoreCode0 ICScoreCode = "0"
-	ICScoreCode1 ICScoreCode = "1"
-	ICScoreCode2 ICScoreCode = "2"
-	ICScoreCode3 ICScoreCode = "3"
+	Fluffy1 ICScoreCode = "1"
+	Fluffy2 ICScoreCode = "2"
+	Fluffy3 ICScoreCode = "3"
+	Purple0 ICScoreCode = "0"
 )
 
 type TcScoreCode string
 
 const (
-	TcScoreCode0 TcScoreCode = "0"
-	TcScoreCode1 TcScoreCode = "1"
-	TcScoreCode2 TcScoreCode = "2"
-	TcScoreCode3 TcScoreCode = "3"
-	TcScoreCode4 TcScoreCode = "4"
-	TcScoreCode5 TcScoreCode = "5"
-	TcScoreCode6 TcScoreCode = "6"
+	Fluffy0    TcScoreCode = "0"
+	Fluffy4    TcScoreCode = "4"
+	Purple5    TcScoreCode = "5"
+	Tentacled1 TcScoreCode = "1"
+	Tentacled2 TcScoreCode = "2"
+	Tentacled3 TcScoreCode = "3"
+	The6       TcScoreCode = "6"
 )
 
-type ProteinExpressionResultCode string
+type CodingProteinExpressionResultCode string
 
 const (
-	Exp                              ProteinExpressionResultCode = "exp"
-	NotExp                           ProteinExpressionResultCode = "not-exp"
-	TentacledUnknown                 ProteinExpressionResultCode = "unknown"
-	ProteinExpressionResultCode1Plus ProteinExpressionResultCode = "1+"
-	ProteinExpressionResultCode2Plus ProteinExpressionResultCode = "2+"
-	ProteinExpressionResultCode3Plus ProteinExpressionResultCode = "3+"
+	AmbitiousUnknown CodingProteinExpressionResultCode = "unknown"
+	Exp              CodingProteinExpressionResultCode = "exp"
+	NotExp           CodingProteinExpressionResultCode = "not-exp"
+	The1             CodingProteinExpressionResultCode = "1+"
+	The2             CodingProteinExpressionResultCode = "2+"
+	The3             CodingProteinExpressionResultCode = "3+"
 )
 
-type ChromosomeCode string
+type Chromosome string
 
 const (
-	Chr1  ChromosomeCode = "chr1"
-	Chr10 ChromosomeCode = "chr10"
-	Chr11 ChromosomeCode = "chr11"
-	Chr12 ChromosomeCode = "chr12"
-	Chr13 ChromosomeCode = "chr13"
-	Chr14 ChromosomeCode = "chr14"
-	Chr15 ChromosomeCode = "chr15"
-	Chr16 ChromosomeCode = "chr16"
-	Chr17 ChromosomeCode = "chr17"
-	Chr18 ChromosomeCode = "chr18"
-	Chr19 ChromosomeCode = "chr19"
-	Chr2  ChromosomeCode = "chr2"
-	Chr20 ChromosomeCode = "chr20"
-	Chr21 ChromosomeCode = "chr21"
-	Chr22 ChromosomeCode = "chr22"
-	Chr3  ChromosomeCode = "chr3"
-	Chr4  ChromosomeCode = "chr4"
-	Chr5  ChromosomeCode = "chr5"
-	Chr6  ChromosomeCode = "chr6"
-	Chr7  ChromosomeCode = "chr7"
-	Chr8  ChromosomeCode = "chr8"
-	Chr9  ChromosomeCode = "chr9"
-	ChrX  ChromosomeCode = "chrX"
-	ChrY  ChromosomeCode = "chrY"
+	Chr1  Chromosome = "chr1"
+	Chr10 Chromosome = "chr10"
+	Chr11 Chromosome = "chr11"
+	Chr12 Chromosome = "chr12"
+	Chr13 Chromosome = "chr13"
+	Chr14 Chromosome = "chr14"
+	Chr15 Chromosome = "chr15"
+	Chr16 Chromosome = "chr16"
+	Chr17 Chromosome = "chr17"
+	Chr18 Chromosome = "chr18"
+	Chr19 Chromosome = "chr19"
+	Chr2  Chromosome = "chr2"
+	Chr20 Chromosome = "chr20"
+	Chr21 Chromosome = "chr21"
+	Chr22 Chromosome = "chr22"
+	Chr3  Chromosome = "chr3"
+	Chr4  Chromosome = "chr4"
+	Chr5  Chromosome = "chr5"
+	Chr6  Chromosome = "chr6"
+	Chr7  Chromosome = "chr7"
+	Chr8  Chromosome = "chr8"
+	Chr9  Chromosome = "chr9"
+	ChrX  Chromosome = "chrX"
+	ChrY  Chromosome = "chrY"
 )
 
-type ChromosomeSystem string
+type ExternalIDSystem string
 
 const (
-	Chromosome ChromosomeSystem = "chromosome"
+	HTTPSCancerSangerACUkCosmic ExternalIDSystem = "https://cancer.sanger.ac.uk/cosmic"
+	HTTPSWWWNcbiNlmNihGovEntrez ExternalIDSystem = "https://www.ncbi.nlm.nih.gov/entrez"
+	HTTPSWWWNcbiNlmNihGovSnp    ExternalIDSystem = "https://www.ncbi.nlm.nih.gov/snp"
+	PurpleHTTPSWWWEnsemblOrg    ExternalIDSystem = "https://www.ensembl.org"
 )
 
-type GeneSystem string
+type CodingBaseVariantLocalizationCode string
 
 const (
-	HTTPSWWWGenenamesOrg GeneSystem = "https://www.genenames.org/"
+	CodingRegion     CodingBaseVariantLocalizationCode = "coding-region"
+	Intergenic       CodingBaseVariantLocalizationCode = "intergenic"
+	Intronic         CodingBaseVariantLocalizationCode = "intronic"
+	RegulatoryRegion CodingBaseVariantLocalizationCode = "regulatory-region"
+	SplicingRegion   CodingBaseVariantLocalizationCode = "splicing-region"
 )
 
-type CNVType string
+type CodingCNVCode string
 
 const (
-	HighLevelGain CNVType = "high-level-gain"
-	Loss          CNVType = "loss"
-	LowLevelGain  CNVType = "low-level-gain"
+	HighLevelGain CodingCNVCode = "high-level-gain"
+	Loss          CodingCNVCode = "loss"
+	LowLevelGain  CodingCNVCode = "low-level-gain"
+)
+
+type InterpretationCode string
+
+const (
+	High         InterpretationCode = "high"
+	Intermediate InterpretationCode = "intermediate"
+	Low          InterpretationCode = "low"
 )
 
 type StrandEnum string
@@ -946,25 +1238,64 @@ const (
 	RNAFusionStrand StrandEnum = "-"
 )
 
+type TranscriptIDSystem string
+
+const (
+	FluffyHTTPSWWWEnsemblOrg    TranscriptIDSystem = "https://www.ensembl.org"
+	HTTPSWWWNcbiNlmNihGovRefseq TranscriptIDSystem = "https://www.ncbi.nlm.nih.gov/refseq"
+)
+
+type CodingClinVarCode string
+
+const (
+	Fluffy5    CodingClinVarCode = "5"
+	Sticky1    CodingClinVarCode = "1"
+	Sticky2    CodingClinVarCode = "2"
+	Sticky3    CodingClinVarCode = "3"
+	Tentacled4 CodingClinVarCode = "4"
+)
+
+type CodingNGSReportCode string
+
+const (
+	IndigoOther           CodingNGSReportCode = "other"
+	PurpleArray           CodingNGSReportCode = "array"
+	PurpleExome           CodingNGSReportCode = "exome"
+	PurpleGenomeLongRead  CodingNGSReportCode = "genome-long-read"
+	PurpleGenomeShortRead CodingNGSReportCode = "genome-short-read"
+	PurpleKaryotyping     CodingNGSReportCode = "karyotyping"
+	PurplePanel           CodingNGSReportCode = "panel"
+	PurpleSingle          CodingNGSReportCode = "single"
+)
+
 type Unit string
 
 const (
-	Years Unit = "Years"
+	Months Unit = "Months"
+	Years  Unit = "Years"
 )
 
-type Gender string
+type GenderCode string
 
 const (
-	Female        Gender = "female"
-	GenderOther   Gender = "other"
-	GenderUnknown Gender = "unknown"
-	Male          Gender = "male"
+	CunningUnknown GenderCode = "unknown"
+	Female         GenderCode = "female"
+	IndecentOther  GenderCode = "other"
+	Male           GenderCode = "male"
 )
 
-type Type string
+type CodingHealthInsuranceCode string
 
 const (
-	Organization Type = "Organization"
+	Bei CodingHealthInsuranceCode = "BEI"
+	Bg  CodingHealthInsuranceCode = "BG"
+	Gkv CodingHealthInsuranceCode = "GKV"
+	Gpv CodingHealthInsuranceCode = "GPV"
+	Pkv CodingHealthInsuranceCode = "PKV"
+	Ppv CodingHealthInsuranceCode = "PPV"
+	Sel CodingHealthInsuranceCode = "SEL"
+	Soz CodingHealthInsuranceCode = "SOZ"
+	Unk CodingHealthInsuranceCode = "UNK"
 )
 
 type VitalStatusCode string
@@ -974,58 +1305,79 @@ const (
 	Deceased VitalStatusCode = "deceased"
 )
 
-type EcogCode string
+type CodingECOGCode string
 
 const (
-	EcogCode0 EcogCode = "0"
-	EcogCode1 EcogCode = "1"
-	EcogCode2 EcogCode = "2"
-	EcogCode3 EcogCode = "3"
-	EcogCode4 EcogCode = "4"
+	Indigo1    CodingECOGCode = "1"
+	Indigo2    CodingECOGCode = "2"
+	Indigo3    CodingECOGCode = "3"
+	Sticky4    CodingECOGCode = "4"
+	Tentacled0 CodingECOGCode = "0"
+	Tentacled5 CodingECOGCode = "5"
 )
 
-type ResponseTherapyType string
+type CodingMolecularDiagnosticReportCode string
 
 const (
-	MTBMedicationTherapy ResponseTherapyType = "MTBMedicationTherapy"
+	Fish                  CodingMolecularDiagnosticReportCode = "FISH"
+	FluffyArray           CodingMolecularDiagnosticReportCode = "array"
+	FluffyExome           CodingMolecularDiagnosticReportCode = "exome"
+	FluffyGenomeLongRead  CodingMolecularDiagnosticReportCode = "genome-long-read"
+	FluffyGenomeShortRead CodingMolecularDiagnosticReportCode = "genome-short-read"
+	FluffyKaryotyping     CodingMolecularDiagnosticReportCode = "karyotyping"
+	FluffyPanel           CodingMolecularDiagnosticReportCode = "panel"
+	FluffySingle          CodingMolecularDiagnosticReportCode = "single"
+	FusionPanel           CodingMolecularDiagnosticReportCode = "fusion-panel"
+	GenePanel             CodingMolecularDiagnosticReportCode = "gene-panel"
+	HilariousOther        CodingMolecularDiagnosticReportCode = "other"
+	Pcr                   CodingMolecularDiagnosticReportCode = "PCR"
 )
 
-type RecistCode string
+type CodingResponseMethodCode string
 
 const (
-	CR  RecistCode = "CR"
-	Mr  RecistCode = "MR"
-	Na  RecistCode = "NA"
-	Nya RecistCode = "NYA"
-	PD  RecistCode = "PD"
-	PR  RecistCode = "PR"
-	SD  RecistCode = "SD"
+	Rano   CodingResponseMethodCode = "RANO"
+	Recist CodingResponseMethodCode = "RECIST"
 )
 
-type TumorSpecimenCollectionLocalization string
+type CodingRECISTCode string
 
 const (
-	Metastasis                                 TumorSpecimenCollectionLocalization = "metastasis"
-	PrimaryTumor                               TumorSpecimenCollectionLocalization = "primary-tumor"
-	TumorSpecimenCollectionLocalizationUnknown TumorSpecimenCollectionLocalization = "unknown"
+	CR CodingRECISTCode = "CR"
+	Mr CodingRECISTCode = "MR"
+	Na CodingRECISTCode = "NA"
+	PD CodingRECISTCode = "PD"
+	PR CodingRECISTCode = "PR"
+	SD CodingRECISTCode = "SD"
 )
 
-type TumorSpecimenCollectionMethod string
+type CodingTumorSpecimenCollectionLocalizationCode string
 
 const (
-	Biopsy                                    TumorSpecimenCollectionMethod = "biopsy"
-	Cytology                                  TumorSpecimenCollectionMethod = "cytology"
-	Resection                                 TumorSpecimenCollectionMethod = "resection"
-	TumorSpecimenCollectionMethodLiquidBiopsy TumorSpecimenCollectionMethod = "liquid-biopsy"
-	TumorSpecimenCollectionMethodUnknown      TumorSpecimenCollectionMethod = "unknown"
+	CellfreeDna        CodingTumorSpecimenCollectionLocalizationCode = "cellfree-dna"
+	LocalRecurrence    CodingTumorSpecimenCollectionLocalizationCode = "local-recurrence"
+	MagentaUnknown     CodingTumorSpecimenCollectionLocalizationCode = "unknown"
+	Metastasis         CodingTumorSpecimenCollectionLocalizationCode = "metastasis"
+	PrimaryTumor       CodingTumorSpecimenCollectionLocalizationCode = "primary-tumor"
+	RegionalLymphNodes CodingTumorSpecimenCollectionLocalizationCode = "regional-lymph-nodes"
 )
 
-type TumorSpecimenType string
+type CodingTumorSpecimenCollectionMethodCode string
 
 const (
-	CryoFrozen                    TumorSpecimenType = "cryo-frozen"
-	Ffpe                          TumorSpecimenType = "FFPE"
-	FreshTissue                   TumorSpecimenType = "fresh-tissue"
-	TumorSpecimenTypeLiquidBiopsy TumorSpecimenType = "liquid-biopsy"
-	TumorSpecimenTypeUnknown      TumorSpecimenType = "unknown"
+	Biopsy             CodingTumorSpecimenCollectionMethodCode = "biopsy"
+	Cytology           CodingTumorSpecimenCollectionMethodCode = "cytology"
+	FriskyUnknown      CodingTumorSpecimenCollectionMethodCode = "unknown"
+	PurpleLiquidBiopsy CodingTumorSpecimenCollectionMethodCode = "liquid-biopsy"
+	Resection          CodingTumorSpecimenCollectionMethodCode = "resection"
+)
+
+type CodingTumorSpecimenCode string
+
+const (
+	CryoFrozen         CodingTumorSpecimenCode = "cryo-frozen"
+	Ffpe               CodingTumorSpecimenCode = "FFPE"
+	FluffyLiquidBiopsy CodingTumorSpecimenCode = "liquid-biopsy"
+	FreshTissue        CodingTumorSpecimenCode = "fresh-tissue"
+	MischievousUnknown CodingTumorSpecimenCode = "unknown"
 )
