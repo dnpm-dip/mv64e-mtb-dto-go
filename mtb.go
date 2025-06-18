@@ -222,12 +222,12 @@ type StudyReference struct {
 }
 
 type ClaimResponse struct {
-	Claim        Reference                        `json:"claim"`
-	ID           string                           `json:"id"`
-	IssuedOn     string                           `json:"issuedOn"`
-	Patient      Reference                        `json:"patient"`
-	Status       ClaimResponseStatusCoding        `json:"status"`
-	StatusReason *ClaimResponseStatusReasonCoding `json:"statusReason,omitempty"`
+	Claim        Reference                         `json:"claim"`
+	ID           string                            `json:"id"`
+	IssuedOn     string                            `json:"issuedOn"`
+	Patient      Reference                         `json:"patient"`
+	Status       *ClaimResponseStatusCoding        `json:"status,omitempty"`
+	StatusReason []ClaimResponseStatusReasonCoding `json:"statusReason,omitempty"`
 }
 
 type ClaimResponseStatusCoding struct {
@@ -476,13 +476,11 @@ type TumorMorphology struct {
 }
 
 type IhcReport struct {
-	BlockIDS  []string         `json:"blockIds"`
-	ID        string           `json:"id"`
-	IssuedOn  string           `json:"issuedOn"`
-	JournalID string           `json:"journalId"`
-	Patient   Reference        `json:"patient"`
-	Results   IhcReportResults `json:"results"`
-	Specimen  Reference        `json:"specimen"`
+	ID       string           `json:"id"`
+	IssuedOn string           `json:"issuedOn"`
+	Patient  Reference        `json:"patient"`
+	Results  IhcReportResults `json:"results"`
+	Specimen Reference        `json:"specimen"`
 }
 
 type IhcReportResults struct {
