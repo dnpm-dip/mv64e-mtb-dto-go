@@ -23,6 +23,7 @@ type Mtb struct {
 	Claims                 []Claim                 `json:"claims,omitempty"`
 	Diagnoses              []MtbDiagnosis          `json:"diagnoses"`
 	EpisodesOfCare         []MtbEpisodeOfCare      `json:"episodesOfCare"`
+	FamilyMemberHistories  []FamilyMemberHistory   `json:"familyMemberHistories,omitempty"`
 	FollowUPS              []FollowUp              `json:"followUps,omitempty"`
 	GuidelineProcedures    []OncoProcedure         `json:"guidelineProcedures,omitempty"`
 	GuidelineTherapies     []MtbSystemicTherapy    `json:"guidelineTherapies,omitempty"`
@@ -341,6 +342,19 @@ type MtbEpisodeOfCare struct {
 type PeriodDate struct {
 	End   *string `json:"end,omitempty"`
 	Start string  `json:"start"`
+}
+
+type FamilyMemberHistory struct {
+	ID           string                                    `json:"id"`
+	Patient      Reference                                 `json:"patient"`
+	Relationship FamilyMemberHistoryRelationshipTypeCoding `json:"relationship"`
+}
+
+type FamilyMemberHistoryRelationshipTypeCoding struct {
+	Code    FamilyMemberHistoryRelationshipTypeCodingCode `json:"code"`
+	Display *string                                       `json:"display,omitempty"`
+	System  *string                                       `json:"system,omitempty"`
+	Version *string                                       `json:"version,omitempty"`
 }
 
 type FollowUp struct {
@@ -1093,6 +1107,13 @@ const (
 	Main         ValueCode = "main"
 	Metachronous ValueCode = "metachronous"
 	Secondary    ValueCode = "secondary"
+)
+
+type FamilyMemberHistoryRelationshipTypeCodingCode string
+
+const (
+	EXT     FamilyMemberHistoryRelationshipTypeCodingCode = "EXT"
+	Fammemb FamilyMemberHistoryRelationshipTypeCodingCode = "FAMMEMB"
 )
 
 type FollowUpPatientStatusCodingCode string
