@@ -84,16 +84,16 @@ type HistologyReevaluationRequest struct {
 }
 
 type MtbMedicationRecommendation struct {
-	Category           *MtbMedicationRecommendationCategoryCoding `json:"category,omitempty"`
-	ID                 string                                     `json:"id"`
-	IssuedOn           string                                     `json:"issuedOn"`
-	LevelOfEvidence    *LevelOfEvidence                           `json:"levelOfEvidence,omitempty"`
-	Medication         []AtcUnregisteredMedicationCoding          `json:"medication"`
-	Patient            Reference                                  `json:"patient"`
-	Priority           RecommendationPriorityCoding               `json:"priority"`
-	Reason             *Reference                                 `json:"reason,omitempty"`
-	SupportingVariants []GeneAlterationReference                  `json:"supportingVariants,omitempty"`
-	UseType            *MtbMedicationRecommendationUseTypeCoding  `json:"useType,omitempty"`
+	Category           []MtbMedicationRecommendationCategoryCoding `json:"category,omitempty"`
+	ID                 string                                      `json:"id"`
+	IssuedOn           string                                      `json:"issuedOn"`
+	LevelOfEvidence    *LevelOfEvidence                            `json:"levelOfEvidence,omitempty"`
+	Medication         []AtcUnregisteredMedicationCoding           `json:"medication"`
+	Patient            Reference                                   `json:"patient"`
+	Priority           RecommendationPriorityCoding                `json:"priority"`
+	Reason             *Reference                                  `json:"reason,omitempty"`
+	SupportingVariants []GeneAlterationReference                   `json:"supportingVariants,omitempty"`
+	UseType            *MtbMedicationRecommendationUseTypeCoding   `json:"useType,omitempty"`
 }
 
 type MtbMedicationRecommendationCategoryCoding struct {
@@ -1287,6 +1287,7 @@ const (
 	Chr9  Chromosome = "chr9"
 	ChrX  Chromosome = "chrX"
 	ChrY  Chromosome = "chrY"
+	ChrMt Chromosome = "chrMT"
 )
 
 type ExternalIDSystem string
