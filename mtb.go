@@ -29,6 +29,7 @@ type Mtb struct {
 	GuidelineTherapies     []MtbSystemicTherapy    `json:"guidelineTherapies,omitempty"`
 	HistologyReports       []HistologyReport       `json:"histologyReports,omitempty"`
 	IhcReports             []IhcReport             `json:"ihcReports,omitempty"`
+	MsiFindings            []Msi                   `json:"msiFindings,omitempty"`
 	Metadata               *MvhMetadata            `json:"metadata,omitempty"`
 	NgsReports             []SomaticNgsReport      `json:"ngsReports,omitempty"`
 	Patient                Patient                 `json:"patient"`
@@ -498,11 +499,11 @@ type IhcReport struct {
 }
 
 type IhcReportResults struct {
-	MSIMmr            []MSIMmr            `json:"msiMmr"`
+	MsiMmr            []MsiMmr            `json:"msiMmr"`
 	ProteinExpression []ProteinExpression `json:"proteinExpression"`
 }
 
-type MSIMmr struct {
+type MsiMmr struct {
 	ICScore  *ProteinExpressionICScoreCoding `json:"icScore,omitempty"`
 	ID       string                          `json:"id"`
 	Patient  Reference                       `json:"patient"`
@@ -541,6 +542,29 @@ type ProteinExpression struct {
 	TcScore  *ProteinExpressionTcScoreCoding `json:"tcScore,omitempty"`
 	TpsScore *int64                          `json:"tpsScore,omitempty"`
 	Value    ProteinExpressionResultCoding   `json:"value"`
+}
+
+type Msi struct {
+	ID             string                  `json:"id"`
+	Interpretation MsiInterpretationCoding `json:"interpretation"`
+	Method         MsiMethodCoding         `json:"method"`
+	Patient        Reference               `json:"patient"`
+	Specimen       Reference               `json:"specimen"`
+	Value          float64                 `json:"value"`
+}
+
+type MsiInterpretationCoding struct {
+	Code    MsiInterpretationCodingCode `json:"code"`
+	Display *string                     `json:"display,omitempty"`
+	System  *string                     `json:"system,omitempty"`
+	Version *string                     `json:"version,omitempty"`
+}
+
+type MsiMethodCoding struct {
+	Code    MsiMethodCodingCode `json:"code"`
+	Display *string             `json:"display,omitempty"`
+	System  *string             `json:"system,omitempty"`
+	Version *string             `json:"version,omitempty"`
 }
 
 type MvhMetadata struct {
@@ -1234,6 +1258,25 @@ const (
 	ProteinExpressionResultCodingCodeCode1Plus ProteinExpressionResultCodingCode = "1+"
 	ProteinExpressionResultCodingCodeCode2Plus ProteinExpressionResultCodingCode = "2+"
 	ProteinExpressionResultCodingCodeCode3Plus ProteinExpressionResultCodingCode = "3+"
+)
+
+type MsiInterpretationCodingCode string
+
+const (
+	MsiInterpretationCodingCodeMsiHigh       MsiInterpretationCodingCode = "msi-high"
+	MsiInterpretationCodingCodeUnknown       MsiInterpretationCodingCode = "unknown"
+	MsiInterpretationCodingCodeMsiLow        MsiInterpretationCodingCode = "msi-low"
+	MsiInterpretationCodingCodeMmrDeficient  MsiInterpretationCodingCode = "mmr-deficient"
+	MsiInterpretationCodingCodeMmrProficient MsiInterpretationCodingCode = "mmr-proficient"
+	MsiInterpretationCodingCodeStable        MsiInterpretationCodingCode = "stable"
+)
+
+type MsiMethodCodingCode string
+
+const (
+	MsiMethodCodingCodeIhc           MsiMethodCodingCode = "IHC"
+	MsiMethodCodingCodeBioinformatic MsiMethodCodingCode = "bioinformatic"
+	MsiMethodCodingCodePCR           MsiMethodCodingCode = "PCR"
 )
 
 type ModelProjectConsentPurpose string
