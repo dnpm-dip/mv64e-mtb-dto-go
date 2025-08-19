@@ -826,7 +826,7 @@ type NgsReportCoding struct {
 }
 
 type Patient struct {
-	Address         Address            `json:"address"`
+	Address         *Address           `json:"address,omitempty"`
 	Age             *Age               `json:"age,omitempty"`
 	BirthDate       string             `json:"birthDate"`
 	DateOfDeath     *string            `json:"dateOfDeath,omitempty"`
@@ -1301,6 +1301,7 @@ const (
 	Correction MvhSubmissionType = "correction"
 	Followup   MvhSubmissionType = "followup"
 	Initial    MvhSubmissionType = "initial"
+	Test       MvhSubmissionType = "test"
 )
 
 type Chromosome string
