@@ -510,6 +510,7 @@ type MsiMmr struct {
 	Protein  Coding                          `json:"protein"`
 	TcScore  *ProteinExpressionTcScoreCoding `json:"tcScore,omitempty"`
 	TpsScore *int64                          `json:"tpsScore,omitempty"`
+	CpsScore *int64                          `json:"cpsScore,omitempty"`
 	Value    ProteinExpressionResultCoding   `json:"value"`
 }
 
