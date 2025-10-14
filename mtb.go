@@ -499,19 +499,8 @@ type IhcReport struct {
 }
 
 type IhcReportResults struct {
-	MsiMmr            []MsiMmr            `json:"msiMmr"`
+	MsiMmr            []ProteinExpression `json:"msiMmr"`
 	ProteinExpression []ProteinExpression `json:"proteinExpression"`
-}
-
-type MsiMmr struct {
-	ICScore  *ProteinExpressionICScoreCoding `json:"icScore,omitempty"`
-	ID       string                          `json:"id"`
-	Patient  Reference                       `json:"patient"`
-	Protein  Coding                          `json:"protein"`
-	TcScore  *ProteinExpressionTcScoreCoding `json:"tcScore,omitempty"`
-	TpsScore *int64                          `json:"tpsScore,omitempty"`
-	CpsScore *int64                          `json:"cpsScore,omitempty"`
-	Value    ProteinExpressionResultCoding   `json:"value"`
 }
 
 type ProteinExpressionICScoreCoding struct {
@@ -542,6 +531,7 @@ type ProteinExpression struct {
 	Protein  Coding                          `json:"protein"`
 	TcScore  *ProteinExpressionTcScoreCoding `json:"tcScore,omitempty"`
 	TpsScore *int64                          `json:"tpsScore,omitempty"`
+	CpsScore *int64                          `json:"cpsScore,omitempty"`
 	Value    ProteinExpressionResultCoding   `json:"value"`
 }
 
