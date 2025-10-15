@@ -559,11 +559,23 @@ type MsiMethodCoding struct {
 }
 
 type MvhMetadata struct {
-	ModelProjectConsent ModelProjectConsent      `json:"modelProjectConsent"`
-	ResearchConsents    []map[string]interface{} `json:"researchConsents,omitempty"`
-	TransferTAN         string                   `json:"transferTAN"`
-	Type                MvhSubmissionType        `json:"type"`
+	ModelProjectConsent          ModelProjectConsent           `json:"modelProjectConsent"`
+	ResearchConsents             []map[string]interface{}      `json:"researchConsents,omitempty"`
+	ReasonResearchConsentMissing *ResearchConsentReasonMissing `json:"reasonResearchConsentMissing,omitempty"`
+	TransferTAN                  string                        `json:"transferTAN"`
+	Type                         MvhSubmissionType             `json:"type"`
 }
+
+type ResearchConsentReasonMissing string
+
+const (
+	ConsentNotReturned   ResearchConsentReasonMissing = "consent-not-returned"
+	OrganizationalIssues ResearchConsentReasonMissing = "organizational-issues"
+	OtherPatientReason   ResearchConsentReasonMissing = "other-patient-reason"
+	PatientInability     ResearchConsentReasonMissing = "patient-inability"
+	PatientRefusal       ResearchConsentReasonMissing = "patient-refusal"
+	TechnicalIssues      ResearchConsentReasonMissing = "technical-issues"
+)
 
 type ModelProjectConsent struct {
 	Date       *string     `json:"date,omitempty"`
