@@ -3,6 +3,7 @@ package mtb
 import (
 	_ "embed"
 	"encoding/json"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -19,9 +20,14 @@ func TestShouldDeserializeJson(t *testing.T) {
 }
 
 func TestShouldKeepTimezone(t *testing.T) {
+	re := regexp.MustCompile("\"birthDate\":\"\\d{4}-\\d{2}-\\d{2}\"")
+
+	expectedDate := re.FindAllStringSubmatch(string(fakeMtbData), -1)[0][0]
+
 	mtb, _ := UnmarshalMtb(fakeMtbData)
 	actual, err := json.Marshal(mtb)
-	if err != nil || !strings.Contains(string(actual), "\"birthDate\":\"1985-05-19\"") {
+
+	if err != nil || !strings.Contains(string(actual), expectedDate) {
 		t.Errorf("Date does not match. Timezone issues?")
 	}
 }
