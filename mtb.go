@@ -3,6 +3,7 @@ package mtb
 import (
 	"bytes"
 	"encoding/json"
+	"regexp"
 )
 
 func UnmarshalMtb(data []byte) (Mtb, error) {
@@ -831,13 +832,39 @@ type NgsReportCoding struct {
 type Patient struct {
 	Address         *Address           `json:"address,omitempty"`
 	Age             *Age               `json:"age,omitempty"`
-	BirthDate       string             `json:"birthDate"`
-	DateOfDeath     *string            `json:"dateOfDeath,omitempty"`
+	BirthDate       YearMonth          `json:"birthDate"`
+	DateOfDeath     *YearMonth         `json:"dateOfDeath,omitempty"`
 	Gender          GenderCoding       `json:"gender"`
 	HealthInsurance HealthInsurance    `json:"healthInsurance"`
 	ID              string             `json:"id"`
 	ManagingSite    *Coding            `json:"managingSite,omitempty"`
 	VitalStatus     *VitalStatusCoding `json:"vitalStatus,omitempty"`
+}
+
+type YearMonth struct {
+	Value string
+}
+
+func (ym YearMonth) MarshalJSON() ([]byte, error) {
+	newFormat := regexp.MustCompile("^\"\\d{4}-\\d{2}\"$")
+	oldFormat := regexp.MustCompile("^\"\\d{4}-\\d{2}-\\d{2}\"$")
+
+	var result string
+
+	if newFormat.MatchString(ym.Value) {
+		result = ym.Value[1:10]
+	} else if oldFormat.MatchString(ym.Value) {
+		result = ym.Value[1:8]
+	}
+
+	return json.Marshal(result)
+}
+
+func (ym *YearMonth) UnmarshalJSON(text []byte) error {
+	*ym = YearMonth{
+		Value: string(text),
+	}
+	return nil
 }
 
 type Address struct {
