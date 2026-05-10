@@ -736,11 +736,11 @@ type RnaFusion struct {
 }
 
 type RnaFusionFusionPartner3Prime struct {
-	ExonID       string       `json:"exonId"`
-	Gene         Coding       `json:"gene"`
-	Position     float64      `json:"position"`
-	Strand       StrandEnum   `json:"strand"`
-	TranscriptID TranscriptID `json:"transcriptId"`
+	ExonID       string          `json:"exonId"`
+	Gene         Coding          `json:"gene"`
+	Position     float64         `json:"position"`
+	Strand       RnaFusionStrand `json:"strand"`
+	TranscriptID TranscriptID    `json:"transcriptId"`
 }
 
 type TranscriptID struct {
@@ -749,11 +749,11 @@ type TranscriptID struct {
 }
 
 type RnaFusionFusionPartner5Prime struct {
-	ExonID       string       `json:"exonId"`
-	Gene         Coding       `json:"gene"`
-	Position     float64      `json:"position"`
-	Strand       StrandEnum   `json:"strand"`
-	TranscriptID TranscriptID `json:"transcriptId"`
+	ExonID       string          `json:"exonId"`
+	Gene         Coding          `json:"gene"`
+	Position     float64         `json:"position"`
+	Strand       RnaFusionStrand `json:"strand"`
+	TranscriptID TranscriptID    `json:"transcriptId"`
 }
 
 type RnaSeq struct {
@@ -1399,11 +1399,11 @@ const (
 	Low          InterpretationCodingCode = "low"
 )
 
-type StrandEnum string
+type RnaFusionStrand string
 
 const (
-	Empty           StrandEnum = "+"
-	RnaFusionStrand StrandEnum = "-"
+	Plus  RnaFusionStrand = "+"
+	Minus RnaFusionStrand = "-"
 )
 
 type TranscriptIDSystem string
